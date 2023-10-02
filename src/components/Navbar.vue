@@ -13,11 +13,12 @@
          </div>
         <!-- Menu -->
         <ul class="flex space-x-4 text-xl font-sans font-bold">
-          <li><a href="#" class="text-slate-950  hover:text-gray-300">Home</a></li>
-          <li><a href="#" class="text-slate-950 hover:text-gray-300">Commande</a></li>
-          <li><a href="#" class="text-slate-950 hover:text-gray-300">Reservation</a></li>
-          <li><a href="#" class="text-slate-950 hover:text-gray-300">Repas</a></li>
-          <li><a href="#" class="text-slate-950 hover:text-gray-300">Restaurant</a></li>
+          <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/">Home</router-link></li>
+          <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/commande">Commande</router-link></li>
+          <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/reservation">Reservation</router-link></li>
+          <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/restaurant">Restaurant</router-link></li>
+          <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/repas">Repas</router-link></li>
+         
           
         </ul>
       </div>
