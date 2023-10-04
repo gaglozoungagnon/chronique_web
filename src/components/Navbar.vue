@@ -12,7 +12,7 @@
                     <button class="text-sm bg-green-600 py-2 px-6 rounded-full text-white poppins ring-red-300 focus:ring-4 transition duration-300 hover:scale-105 transform">Search</button>
          </div>
         <!-- Menu -->
-        <ul class="flex space-x-4 text-xl font-sans font-bold">
+        <ul class="flex space-x-4 text-lg  font-bold">
           <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/">Home</router-link></li>
           <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/commande">Commande</router-link></li>
           <li><router-link class="text-slate-950 hover:text-gray-300" active-class="text-green-600" to="/reservation">Reservation</router-link></li>
@@ -21,6 +21,13 @@
          
           
         </ul>
+
+        <div class="flex items-center justify-end space-x-6  text-lg  font-bold ">
+          <router-link class="poppins" active-class="text-green-600" to="/auth/login">Se connecter</router-link>
+          <router-link class=" bg-green-600 px-6 py-3 text-white poppins rounded-full ring-red-300 focus:outline-none focus:ring-4 transform transition duration-700 hover:scale-105" to="/auth/register">S'inscrire</router-link>
+         
+         </div>
+
       </div>
     </nav>
   </template>

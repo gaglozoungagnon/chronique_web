@@ -1,48 +1,39 @@
 <template>
     <div class="">
-      <div class="custom-background   flex flex-col items-center justify-start font-sans min-h-96  lg:pt-10 lg:pb-20">
-        <div>
-          <p class="p-2 text-4xl font-bold text-center text-blue-800 lg:mx-auto lg:w-4/6 lg:text-5xl lg:text-gray-100">
-            Pourquoi rester affamé quand vous pouvez commander chez WADOUNOU
-          </p>
-        </div>
-        <div>
-          <p class="p-4 pt-6 font-sans text-2xl leading-10 text-center text-gray-500 lg:text-gray-200">
-  
-            Téléchargez dès maintenant l'application alimentaire de WADOUNOU
-          </p>
-        </div>
-        <div
-          class="relative z-50 flex flex-col items-center justify-between h-48 lg:space-x-8 pt-7 lg:pt-0 lg:flex-row lg:justify-between lg:w-90">
-          <button
-            class="pt-3 pb-3 pl-12 pr-12 text-2xl font-semibold text-center text-white transition-all bg-orange-600 rounded-full shadow-2xl lg:ml-5 hover:bg-orange-700 focus:outline-none ring-4 ring-orange-600 lg:ring-2 lg:font-medium ">
-            Playstore
-          </button>
-          <button
-            class="pt-3 pb-3 text-2xl font-semibold text-center text-orange-500 transition-all rounded-full shadow-2xl lg:mr-5 hover:text-orange-500 hover:bg-gray-50 pl-11 pr-11 bg-gray-50 focus:outline-none ring-4 ring-orange-500 lg:font-medium lg:text-gray-50 lg:bg-opacity-0 lg:ring-2 lg:ring-white">
-            App Store
-          </button>
-        </div>
-  
-      </div>
+      <div class="custom-background h-96">
+       
+    </div>
       <div class="flex">
-        <div class="w-1/3 mt-4  ">
-          <transition name="fade" mode="out-in">
-            <img :key="currentImage" :src="images[currentImage]" :alt="'Image ' + (currentImage + 1)"
-              class="w-full h-full object-cover">
-          </transition>
-        </div>
-        <div
-          class="z-0 flex flex-row items-start justify-center w-screen h-screen pt-20 -mb-16 bg-gray-50 lg:bg-white lg:mb-20 lg:w-1/3 lg:h-96 lg:pt-0">
-          <img class="absolute left-0 lg:left-auto lg:-mt-64" src="../assets/Rectangle_1.png" alt="" />
-          <img class="ml-64 lg:-mt-16" src="../assets/Rectangle_2.png" alt="" />
-        </div>
-        <div class="w-1/3 mt-4  ">
-          <transition name="fade" mode="out-in">
-            <img :key="currentImage" :src="image[currentImage]" :alt="'Image ' + (currentImage + 1)"
-              class="w-full h-full object-cover">
-          </transition>
-        </div>
+        <div class="w-1/3 mt-9">
+        <transition name="fade" mode="out-in">
+          <div :key="currentImage" class=" w-full">
+            <img :src="images[currentImage].src" :alt="'Image ' + (currentImage + 1)" class="w-2/3 ml-16 h-72 object-cover">
+            <p class="text-center text-xl font-sans font-bold mt-2  ">{{ images[currentImage].name }}</p>
+          </div>
+        </transition>
+      </div>
+      <div class="w-1/3 mt-9 ml-2">
+        <transition name="fade" mode="out-in">
+          <div :key="currentImage" class=" w-full">
+            <img :src="img[currentImage].src" :alt="'Image ' + (currentImage + 1)" class="w-2/3 ml-16 h-72 object-cover">
+            <div class="flex ">
+            <p class="text-center text-xl font-sans font-bold mt-2 ml-24">{{ img[currentImage].name }}</p>
+            <button
+              class="bg-green-600 text-white rounded-full px-2 ml-6 mt-4 ml-12 transform transition duration-300 hover:scale-105">Plus info
+            </button>
+          </div>
+          </div>
+        </transition>
+      </div>
+       
+        <div class="w-1/3 mt-9">
+        <transition name="fade" mode="out-in">
+          <div :key="currentImage" class=" w-full">
+            <img :src="image[currentImage].src" :alt="'Image ' + (currentImage + 1)" class="w-2/3 ml-16 h-72 object-cover">
+            <p class="text-center text-xl font-sans font-bold mt-2">{{ image[currentImage].name }}</p>
+          </div>
+        </transition>
+      </div>
       </div>
      <!-- component -->
      <div class="flex mt-6">
@@ -72,13 +63,13 @@
               for="fName"
               class="mb-3 block text-2xl font-bold"
             >
-            Prénom
+            Nom Complet
             </label>
             <input
               type="text"
               name="fName"
               id="fName"
-              placeholder="Prénom"
+              placeholder=" Nom Complet"
               class="w-full rounded-md border border-gray-400 bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             />
           </div>
@@ -89,13 +80,13 @@
               for="lName"
               class="mb-3 block text-2xl font-bold"
             >
-            Nom de famille
+            Contact
             </label>
             <input
               type="text"
               name="lName"
               id="lName"
-              placeholder="Nom de famille"
+              placeholder="65962333"
               class="w-full rounded-md border border-gray-400 bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             />
           </div>
@@ -106,7 +97,7 @@
           for="guest"
           class="mb-3 block text-2xl font-bold"
         >
-        Combien d’invités amenez-vous ?
+        Nombre de place
         </label>
         <input
           type="number"
@@ -159,7 +150,7 @@
               for="time"
               class="mb-3 block text-2xl font-bold"
             >
-            Temps
+            Heure
             </label>
             <input
               type="time"
@@ -177,7 +168,7 @@
         <button
           class="hover:shadow-form rounded-md bg-green-600 py-3 px-8 text-center text-base font-semibold text-white outline-none"
         >
-          Submit
+        soumettre
         </button>
       </div>
     </form>
@@ -193,17 +184,24 @@
     data() {
       return {
         images: [
-          require('@/assets/breakfast2.png'),
-          require('@/assets/breakfast4.png'),
-          require('@/assets/breakfast6.png'),
-          require('@/assets/lunch3.png'),
-        ],
+        { src: require('@/assets/breakfast2.png'), name: 'Petit-déjeuner 1' },
+        { src: require('@/assets/breakfast4.png'), name: 'Petit-déjeuner Bénin' },
+        { src: require('@/assets/breakfast6.png'), name: 'Petit-déjeuner ' },
+        { src: require('@/assets/lunch3.png'), name: 'Déjeuner' },
+      ],
+        
         image: [
-          require('@/assets/lunch4.png'),
-          require('@/assets/lunch5.png'),
-          require('@/assets/lunch6.png'),
-          require('@/assets/dinner2.png'),
-        ],
+        { src: require('@/assets/lunch4.png'), name: 'Plat Africa' },
+        { src: require('@/assets/lunch5.png'), name: 'Plat Bénin' },
+        { src: require('@/assets/lunch6.png'), name: 'Déjeuner Sud' },
+        { src: require('@/assets/dinner2.png'), name: 'Déjeuner Nord' },
+      ],
+      img: [
+        { src: require('@/assets/salmon-518032_960_720.jpg'), name: 'Pizza' },
+        { src: require('@/assets/food-712665_960_720.jpg'), name: 'Chawma' },
+        { src: require('@/assets/photo-1565299624946-b28f40a0ae38.png'), name: 'Burger' },
+        { src: require('@/assets/photo-1512621776951-a57141f2eefd.png'), name: 'Déjeuner Chinois' },
+      ],
         currentImage: 0,
       };
     },
@@ -223,7 +221,7 @@
   
   <style scoped>
   .custom-background {
-    background-image: url('~@/assets/hero.png');
+    background-image: url('~@/assets/reservation.jpg');
     /* Remplacez 'votre-image.jpg' par le nom de votre image */
     background-size: cover;
     /* Ajustez la taille de l'image */
