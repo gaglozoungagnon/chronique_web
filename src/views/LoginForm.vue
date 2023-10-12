@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<template>
+<template class="">
   <div class="p-6 space-y-4 md:space-y-6 sm:p-8 w-1/3 mx-auto my-auto mt-4 mb-4 box-shadow-all-sides">
     <h1 class="font-bold text-xl">Se connecter</h1>
     <form
