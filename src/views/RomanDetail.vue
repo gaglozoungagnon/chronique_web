@@ -73,8 +73,9 @@
 
           </div>
           <div class="flex items-center">
-            <button
-              class="bg-green-600 ml-4 text-white px-12 py-2 flex focus:outline-none poppins rounded-lg  transform transition duration-300 hover:scale-105"><svg
+            <router-link
+              class="bg-green-600 ml-4 text-white px-12 py-2 flex focus:outline-none poppins rounded-lg  transform transition duration-300 hover:scale-105"  to="/lire">
+              <svg
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -82,7 +83,7 @@
               </svg>
 
               <spam class="ml-2">Lire</spam>
-            </button>
+            </router-link>
             <button
               class="border border-white text-white flex px-12 py-2 ml-4 focus:outline-none poppins rounded-lg  transform transition duration-300 hover:scale-105">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Home.vue';
 import Chapitre from './views/Chapitre.vue';
 import Ecrire from './views/Ecrire.vue';
+import Lire from './views/Lire.vue';
 import Parametre from './views/Parametre.vue';
 import RomanDetail from './views/RomanDetail.vue';
 import LoginForm from './views/LoginForm.vue';
@@ -17,6 +18,7 @@ const routes = [
   { path: '/', component: Home },
   { path: '/chapitre', component: Chapitre },
   { path: '/ecrire', component: Ecrire },
+  { path: '/lire', component: Lire },
   { path: '/parametre', component: Parametre },
   { path: '/romandetail', component: RomanDetail },
   { path: '/auth/login', component: LoginForm },
