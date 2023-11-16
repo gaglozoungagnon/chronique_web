@@ -1,10 +1,19 @@
 <template>
-  <Navbar />
-  <router-view></router-view>
-  
-  <Footer />
-</template>
+  <div v-if="$route.meta.layout">
+    <!-- Pour afficher le contenu de la page actuelle -->
+    <component :is="$route.meta.layout">
+      <router-view />
+      <!-- Pour afficher le contenu de la page spécifique au modèle de mise en page -->
+    </component>
+  </div>
+  <div v-else>
+    <Navbar />
+    <router-view />
+    <!-- Pour afficher le contenu de la page actuelle -->
 
+    <Footer />
+  </div>
+</template>
 <script>
 import Navbar from './components/Navbar.vue';
 //import HelloWorld from './components/HelloWorld.vue';

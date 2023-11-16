@@ -35,7 +35,7 @@ export default {
       @submit.prevent="login()"
     >
       <div class="">
-        <label class="block font-bold text-sm text-gray-700 text-left">Email</label>
+        <label class="block font-bold text-sm text-gray-700 text-left">Mail</label>
         <div class="mt-1">
           <input
           class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
@@ -82,7 +82,7 @@ export default {
 
       <Button
         type="submit"
-        class="bg-green-600 text-white px-8 py-2 focus:outline-none poppins rounded-full mt-24 transform transition duration-300 hover:scale-105"
+        class="bg-green-600 text-gray-700 px-8 py-2 focus:outline-none poppins rounded-full mt-24 transform transition duration-300 hover:scale-105"
        
       >
         
