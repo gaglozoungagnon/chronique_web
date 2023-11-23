@@ -3,7 +3,7 @@
   <div
     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4 mt-9"
   >
-  <div class="flex items-center justify-between pb-4">
+  <div class="flex items-center justify-between pb-4 ml-12 mr-12">
       <label for="table-search" class="sr-only">Rechercher</label>
       <div class="relative">
         <div
@@ -32,12 +32,14 @@
         />
       </div>
       <div>
+        <router-link class="" to="/addchapitre">
         <button
           class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          @click="showModalLivraison = true"
+          
         >
           Ajouter un chapitre
         </button>
+        </router-link>
       </div>
     </div>
     <div class="ml-12 mr-12">

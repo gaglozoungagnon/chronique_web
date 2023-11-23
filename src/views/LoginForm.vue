@@ -1,7 +1,13 @@
 <script>
+import axios from "axios";
+import TokenService from "../services/storage.service";
+import ApiService from "../services/api.service";
+//import AlertComponent from "../components/AlertComponent.vue";
 export default {
   name: "LoginForm",
-  
+  components: {
+    //AlertComponent,
+  },
   data() {
     return {
       form: {
@@ -9,18 +15,61 @@ export default {
         password: "",
         // local: null,
       },
+      showAlert: false,
       alert: {
-        type: "",
         message: "",
       },
       processing: false,
+      user: "",
+      role_id: "",
+      roles_id: "",
     };
   },
-  // created() {
-  //   this.form.local = this.$i18n.locale;
-  // },
+  created() {
+    
+  },
   methods: {
-   
+  
+    async login() {
+      try {
+        const response = await axios.post("/api/auth/login", this.form);
+        if (response.data.access_token) {
+          TokenService.saveToken(response.data.access_token);
+          ApiService.setHeader();
+          this.profile();
+          //this.role();
+
+          if (this.user === this.role_id && this.user !== this.roles_id) {
+            this.$router.push("/restaurantdash");
+          } else if (this.user === this.roles_id) {
+            this.$router.push("/livraisonDash");
+          }
+        } else {
+          // Gestion d'une réponse sans jeton d'accès
+          this.showModalRepas = !this.showModalRepas;
+          this.showAlert = true;
+          this.alert.message =
+            "Erreur lors de la connexion. Veuillez réessayer plus tard.";
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 5000);
+        }
+      } catch (error) {
+        // Gestion des erreurs HTTP
+        if (error.response && error.response.status === 422) {
+          this.showAlert = true;
+          this.alert.message = "Adresse e-mail ou mot de passe incorrect.";
+        } else {
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose s'est mal passé. Merci d'essayer plus tard.";
+        }
+
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 5000);
+      }
+    },
   },
 };
 </script>
@@ -40,7 +89,9 @@ export default {
           <input
           class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
             type="email"
+             v-model="form.email"
             autocomplete="current-email"
+           
             required
           />
         </div>
@@ -51,7 +102,9 @@ export default {
           <input
           class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
             type="password"
+             v-model="form.password"
             autocomplete="current-password"
+            
             required
           />
         </div>

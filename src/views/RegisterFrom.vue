@@ -1,32 +1,66 @@
 <script>
-
+import axios from "axios";
+//import BaseLabel from "../components/BaseLabel.vue";
+//import AlertComponent from "../components/AlertComponent.vue";
 export default {
   name: "RegisterFrom",
-
+  components: {
+   // BaseLabel,
+    //AlertComponent
+  },
   data() {
     return {
       form: {
         name: "",
         email: "",
         password: "",
+        //role_id: "",
         // local: null,
       },
+      showAlert: false,
       alert: {
-        type: "",
         message: "",
       },
       processing: false,
+       role_id: "",
+       role_ids: "",
     };
   },
-  // created() {
-  //   this.form.local = this.$i18n.locale;
-  // },
+   created() {
+    this.role();
+   },
   methods: {
-   
+    
+ 
+    async register() {
+      try {
+        const response = await axios.post("/api/auth/register", this.form);
+        if(response.data.access_token){
+          this.$router.push("/auth/login");
+        }else {
+          
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 5000);
+        }
+      } catch (error) {
+        if (error.response.status !== 500) {
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 5000);
+        }
+      }
+    },
+    
   },
 };
 </script>
-
 <template>
   <div
     class="p-6 space-y-4 md:space-y-6 sm:p-8 w-2/3 mx-auto my-auto mt-24 box-shadow-all-sides"

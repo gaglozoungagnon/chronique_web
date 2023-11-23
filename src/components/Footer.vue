@@ -30,7 +30,9 @@
             </ul>
             <div class="flex ml-12">
             <p class="mr-1 mt-2">C.G.U Confidentialité  </p>
+            <router-link class="" to="/faq">
             <p class="ml-4 mt-2">FAQ  </p>
+             </router-link>
             <router-link class="" to="/propos">
             <p class="ml-4 mt-2">Apropos </p>
             </router-link>

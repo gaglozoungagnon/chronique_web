@@ -3,7 +3,7 @@
     <div
       class="container mx-auto flex justify-between items-center py-4 shadow-xl"
     >
-      <router-link class="flex items-center " to="/">
+      <router-link class="flex items-center" to="/">
         <img src="../assets/AP.png" alt="" class="w-full h-12 ml-9" />
       </router-link>
 
@@ -18,186 +18,133 @@
           to="/auteurs"
           >Nos auteurs
         </router-link>
-        <div class="flex items-center justify-center">
-          <div class="relative inline-block text-left">
-            <button
-              @click="toggleDropdown"
-              class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
-            >
-              Parcourir
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5 ml-2 -mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-            <div
-              v-if="isDropdownOpen"
-              id="dropdown-menu"
-              class="origin-top-right absolute right-0 mt-2 w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-            >
-              <div
-                class="py-2 p-2  "
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="dropdown-button"
-              >
-                <div
-                  class="py-2  flex"
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="dropdown-button"
-                >
-                <div>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+        <div class="relative inline-block text-left">
+    <button
+      @click="toggleDropdown"
+      @mousedown.stop
+      class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
+    >
+      Parcourir
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 ml-2 -mr-1"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+    <div
+      v-if="isDropdownOpen"
+      id="dropdown-menu"
+      class="origin-top-right absolute right-0 mt-2 w-96 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+    >
+    <div class="py-2 p-2" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
+        <div class="py-2 flex" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
+            <div>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Romance
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Actions
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Aventure
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Fantaisie
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Milliardaire
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
                     Moderne
-                  </a>
-                </div>
-                <div>
-                    <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Science-fiction
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Roman érotique
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Loup-garou
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Mystère
-                  </a>
-                 
-                  
-                </div>
-                <div class="">
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Thriller
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                     Littérature jeunesse
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Littérature général
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Enquête
-                  </a>
-                </div>
-                <div class="">
-                   <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Horreur
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Mafia
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Passion
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                     Spirituel
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Classiques
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Humour
-                  </a>
-                  <a
-                    class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
-                    role="menuitem"
-                  >
-                    Non-fiction
-                  </a>
-                </div>
-                </div>
-              </div>
+                </a>
             </div>
-          </div>
+            <div>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Science-fiction
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Roman érotique
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Loup-garou
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Mystère
+                </a>
+            </div>
+            <div class="">
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Thriller
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Littérature jeunesse
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Littérature général
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Enquête
+                </a>
+            </div>
+            <div class="">
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Horreur
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Mafia
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Passion
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Spirituel
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Classiques
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Humour
+                </a>
+                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer"
+                    role="menuitem">
+                    Non-fiction
+                </a>
+            </div>
         </div>
+    </div>
+    </div>
+  </div>
+
         <div
           class="rounded-full text-gray-900 p-1 border border-gray-300 bg-white overflow-hidden ring-red-300 focus:ring-4 w-96 flex items-center py-1"
         >
@@ -295,8 +242,12 @@
             <div class="px-4 py-5 bg-white p-6">
               <div class="grid grid-cols-8 gap-6">
                 <div class="col-span-8 sm:col-span-8">
-                <a href="{{ url('/auth/google') }}" class="bg-blue-500 text-white p-2 rounded ml-24">Se connecter avec Google</a>
- </div>
+                  <a
+                    href="{{ url('/auth/google') }}"
+                    class="bg-blue-500 text-white p-2 rounded ml-24"
+                    >Se connecter avec Google</a
+                  >
+                </div>
                 <div class="col-span-8 sm:col-span-8">
                   <BaseLabel value="Mail" />
                   <div class="relative mt-1">
@@ -332,21 +283,20 @@
                     </div>
                   </div>
                 </div>
-               <div class="flex col-span-8 sm:col-span-8">
+                <div class="flex col-span-8 sm:col-span-8">
                   <div class="hidden sm:flex sm:items-start">
-                    
-                    <div class="ml-1 text-sm ">
+                    <div class="ml-1 text-sm">
                       <BaseLabel
                         for="remember"
                         class="text-sm font-medium text-primary-normal dark:text-gray-300 ml-32"
                         >Pas encore de compte</BaseLabel
                       >
                       <a
-        href="/auth/register"
-        class="font-sans text-blue-700 hover:underline dark:text-primary-500 ml-36 mt-2"
-      >
-        Inscrivez vous ici</a
-      >
+                        href="/auth/register"
+                        class="font-sans text-blue-700 hover:underline dark:text-primary-500 ml-36 mt-2"
+                      >
+                        Inscrivez vous ici</a
+                      >
                     </div>
                   </div>
                 </div>
@@ -385,15 +335,6 @@ export default {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
-  },
-  mounted() {
-    this.toggleDropdown();
-
-    document.addEventListener("click", (event) => {
-      if (!this.$el.contains(event.target)) {
-        this.isDropdownOpen = false;
-      }
-    });
   },
 };
 </script>

@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // Importez les composants associés à chaque route
 import Home from './views/Home.vue';
-import Chapitre from './views/Chapitre.vue';
+import AddChapitre from './views/AddChapitre.vue';
 import Ecrire from './views/Ecrire.vue';
 import Lecture from './views/Lecture.vue';
 import Lire from './views/Lire.vue';
@@ -16,10 +16,12 @@ import Auteur from './views/Auteur.vue';
 import auteurDetail from './views/auteurDetail.vue';
 import Concours from './views/Concours.vue';
 import Conditions from './views/Conditions.vue';
+import Faq from './views/Faq.vue';
 import DashBord from './views/DashBord.vue';
 import Statistique from './views/Statistique.vue';
 import HistoireDash from './views/HistoireDash.vue';
 import AjouterRoman from './views/AjouterRoman.vue';
+import Chapitre from './views/Chapitre.vue';
 import Contacte from './views/Contacte.vue';
 import Parametre from './views/Parametre.vue';
 import RomanDetail from './views/RomanDetail.vue';
@@ -48,6 +50,7 @@ const routes = [
   { path: '/romandetail', component: RomanDetail },
   { path: '/contacte', component: Contacte },
   { path: '/condiction', component: Conditions },
+  { path: '/faq', component: Faq },
   {
     path: '/auth/login',
     component: LoginForm,
@@ -66,6 +69,11 @@ const routes = [
   {
     path: "/addroman",
     component: AjouterRoman,
+    meta: { layout: DashLayout, public: false },
+  },
+  {
+    path: "/addchapitre",
+    component: AddChapitre,
     meta: { layout: DashLayout, public: false },
   },
   {
