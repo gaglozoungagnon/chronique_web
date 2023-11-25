@@ -170,7 +170,6 @@ export default {
       categories: (state) => state.categories.categories,
     }),
     groupesCategories() {
-      console.log(this.categories);
       const groupes = [];
       for (let i = 0; i < this.categories.length; i += this.categoriesParGroupe) {
         groupes.push(this.categories.slice(i, i + this.categoriesParGroupe));
