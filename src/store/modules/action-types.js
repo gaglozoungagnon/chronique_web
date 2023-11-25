@@ -16,3 +16,6 @@ export const USER_ADD = "addUser";
 export const USER_DELETE = "deleteUser";
 export const USER_EDIT = "editUser";
 
+export const FETCH_CATEGORIES = "fetchCategories";
+export const FETCH_ONE_FETCH_CATEGORY = "fetchCategory";
+
