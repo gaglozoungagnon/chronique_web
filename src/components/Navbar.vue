@@ -146,7 +146,7 @@ import TheModal from "./TheModal.vue";
 import BaseInput from "./BaseInput.vue";
 import BaseLabel from "./BaseLabel.vue";
 import AddModalFooter from "./AddModalFooter.vue";
-import axios from 'axios';
+import { mapState } from "vuex";
 export default {
   name: "Navbar",
   components: {
@@ -159,16 +159,18 @@ export default {
     return {
       isDropdownOpen: false,
       showModalRepas: false,
-      categories: [],
       categoriesParGroupe: 4
     };
   },
-  mounted() {
-    this.fetchUtils();
+  created() {
+    this.fetchCategories();
   },
   computed: {
-    // Calculez les groupes de liens
+    ...mapState({
+      categories: (state) => state.categories.categories,
+    }),
     groupesCategories() {
+      console.log(this.categories);
       const groupes = [];
       for (let i = 0; i < this.categories.length; i += this.categoriesParGroupe) {
         groupes.push(this.categories.slice(i, i + this.categoriesParGroupe));
@@ -177,13 +179,8 @@ export default {
     }
   },
   methods: {
-    async fetchUtils() {
-      try {
-        const { data } = await axios.get('/categories')
-        this.categories = data.data;
-      } catch (e) {
-        console.log(e)
-      }
+    async fetchCategories() {
+      this.$store.dispatch("categories/fetchCategories");
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;

@@ -11,7 +11,7 @@ import TokenService from "./services/storage.service";
 //dotenv.config()
 Pusher;
 
-ApiService.init("http://127.0.0.1:4000/api");
+ApiService.init("http://127.0.0.1:4000");
 if (TokenService.getToken()) {
   ApiService.setHeader();
 }
