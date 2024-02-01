@@ -47,26 +47,40 @@
         <div
           class="overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
         >
-          <a href="/" aria-label="Article"
+          <a href="/histoirejeux" aria-label="Article"
             ><img
               src="../assets/8.jpeg"
               class="object-cover w-full h-64 rounded"
               alt=""
           /></a>
           <div class="py-5">
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              13 Jul 2020
+            <p class="mb-2 text-xs flex font-semibold text-gray-600 text-left">
+              Programme de mise à jour de septembre 2023 Plus d'exposition et
+              plus de récompenses vous attendent !
             </p>
-            <a
-              href="/"
-              aria-label="Article"
-              class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"
-            >
-              <p class="text-2xl font-bold leading-5">Diving to the deep</p>
-            </a>
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              Romance
+
+            <p class="text-sm font-bold text-left text-red-500 mt-1">
+              Terminer
             </p>
+            <div class="flex">
+              <p class="mb-2 text-xs font-semibold text-gray-600 text-left">
+                2023.05.10 - 2023.11.30
+              </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 ml-36"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                />
+              </svg>
+            </div>
           </div>
         </div>
         <div class="overflow-hidden transition-shadow duration-300 rounded">

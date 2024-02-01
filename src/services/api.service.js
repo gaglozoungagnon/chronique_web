@@ -1,6 +1,6 @@
 import axios from "axios";
 import TokenService from "./storage.service";
-import router from "@/router";
+//import router from "@/router";
 axios.interceptors.request.use((config) => {
   return config;
 });
@@ -84,7 +84,7 @@ const ApiService = {
         if (error?.response?.status === 401 || error?.response?.status === 419) {
           TokenService.removeToken();
           this.removeHeader();
-          router.push("/auth/login");
+          //router.push("/");
         }
 
         // If error was not 401 just reject as is

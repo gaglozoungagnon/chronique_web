@@ -11,7 +11,7 @@ import TokenService from "./services/storage.service";
 //dotenv.config()
 Pusher;
 
-ApiService.init("http://127.0.0.1:4000");
+ApiService.init("https://apichronique.afriplume.com/");
 if (TokenService.getToken()) {
   ApiService.setHeader();
 }

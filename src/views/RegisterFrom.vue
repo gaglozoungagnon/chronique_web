@@ -1,12 +1,18 @@
 <script>
 import axios from "axios";
-//import BaseLabel from "../components/BaseLabel.vue";
-//import AlertComponent from "../components/AlertComponent.vue";
+import TheModal from "../components/TheModal.vue";
+import BaseInput from "../components/BaseInput.vue";
+import BaseLabel from "../components/BaseLabel.vue";
+import AddModalFooter from "../components/AddModalFooter.vue";
+import TokenService from "../services/storage.service";
+import ApiService from "../services/api.service";
 export default {
   name: "RegisterFrom",
   components: {
-   // BaseLabel,
-    //AlertComponent
+    BaseLabel,
+    BaseInput,
+    AddModalFooter,
+    TheModal,
   },
   data() {
     return {
@@ -14,31 +20,33 @@ export default {
         name: "",
         email: "",
         password: "",
-        //role_id: "",
+        role_id: "3",
+        // local: null,
+      },
+      forms: {
+        //name: "",
+        email: "",
+        password: "",
+        // role_id: "3",
         // local: null,
       },
       showAlert: false,
       alert: {
         message: "",
       },
-      processing: false,
-       role_id: "",
-       role_ids: "",
+      showModalRepas: false,
     };
   },
-   created() {
-    this.role();
-   },
+  created() {
+    //this.role();
+  },
   methods: {
-    
- 
     async register() {
       try {
         const response = await axios.post("/api/auth/register", this.form);
-        if(response.data.access_token){
-          this.$router.push("/auth/login");
-        }else {
-          
+        if (response.status == 201) {
+          this.showModalRepas = !this.showModalRepas;
+        } else {
           this.showAlert = true;
           this.alert.message =
             "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
@@ -57,7 +65,32 @@ export default {
         }
       }
     },
-    
+    async login() {
+      try {
+        const response = await axios.post("/api/auth/login", this.forms);
+        if (response.data.access_token) {
+          TokenService.saveToken(response.data.access_token);
+          ApiService.setHeader();
+          this.$router.push("/");
+          //this.profile();
+          //this.role();
+        }
+      } catch (error) {
+        // Gestion des erreurs HTTP
+        if (error.response && error.response.status === 422) {
+          this.showAlert = true;
+          this.alert.message = "Adresse e-mail ou mot de passe incorrect.";
+        } else {
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose s'est mal passé. Merci d'essayer plus tard.";
+        }
+
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 5000);
+      }
+    },
   },
 };
 </script>
@@ -72,6 +105,23 @@ export default {
       class="space-y-4 md:space-y-6"
       @submit.prevent="register()"
     >
+      <!--<div class="col-span-8 sm:col-span-8">
+        <div class="col-span-8 sm:col-span-8">
+          <div class="flex items-center justify-center dark:bg-gray-800">
+            <button
+              class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+            >
+              <img
+                class="w-6 h-6"
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                loading="lazy"
+                alt="google logo"
+              />
+              <span class="text-gray-700">Se connecter avec Google</span>
+            </button>
+          </div>
+        </div>
+      </div>-->
       <div class="">
         <label class="block font-bold text-sm text-gray-700 text-left"
           >Nom</label
@@ -150,14 +200,113 @@ export default {
     </form>
     <p class="text-sm text-gray-500">
       Vous avez déjà un compte
-      <a
-        href="/auth/login"
+      <button
+        @click="showModalRepas = true"
         class="font-sans text-blue-700 hover:underline dark:text-primary-500"
       >
-        Se connecter</a
-      >
+        Se connecter
+      </button>
     </p>
   </div>
+
+  <TheModal
+    width="w-full md:w-2/3 lg:w-1/3"
+    :is-open="showModalRepas"
+    @close-modal="showModalRepas = false"
+  >
+    <template #header>Se connecter</template>
+
+    <template #body>
+      <form action="#" method="POST" @submit.prevent="login()">
+        <div>
+          <div class="mt-3 sm:mt-0 sm:col-span-2">
+            <div class="px-4 py-5 bg-white p-6">
+              <div class="grid grid-cols-8 gap-6">
+                 <!-- <div class="col-span-8 sm:col-span-8">
+                  <div
+                    class="flex items-center justify-center  dark:bg-gray-800"
+                  >
+                    <button
+                      class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+                    >
+                      <img
+                        class="w-6 h-6"
+                        src="https://www.svgrepo.com/show/475656/google-color.svg"
+                        loading="lazy"
+                        alt="google logo"
+                      />
+                      <span class="text-gray-700">Se connecter avec Google</span>
+                    </button>
+                  </div>
+                </div>-->
+                <div class="col-span-8 sm:col-span-8">
+                  <BaseLabel value="Mail" />
+                  <div class="relative mt-1">
+                    <BaseInput v-model="forms.email" class="mt-2" />
+                  </div>
+                </div>
+                <div class="col-span-8 sm:col-span-8">
+                  <BaseLabel value="Mot de passe" />
+                  <BaseInput
+                    type="password"
+                    id="language"
+                    v-model="forms.password"
+                    class="mt-2"
+                  />
+                </div>
+                <div class="flex col-span-8 sm:col-span-8">
+                  <div class="hidden sm:flex sm:items-start">
+                    <div class="flex items-center">
+                      <input
+                        id="remember-me"
+                        name="remember-me"
+                        type="checkbox"
+                        class="rounded border-gray-300 mt-1 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                      />
+                    </div>
+                    <div class="ml-1 text-sm flex">
+                      <BaseLabel
+                        for="remember"
+                        class="text-sm font-medium text-primary-normal dark:text-gray-300"
+                        >Se souvenir de moi</BaseLabel
+                      >
+                      <a
+                        href="/auth/forgot-password"
+                        class="text-sm font-medium ml-32"
+                      >
+                        Mot de passe oublie
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex col-span-8 sm:col-span-8">
+                  <div class="hidden sm:flex sm:items-start">
+                    <div class="ml-1 text-sm">
+                      <BaseLabel
+                        for="remember"
+                        class="text-sm font-medium text-primary-normal dark:text-gray-300 ml-32"
+                      >
+                        Pas encore de compte</BaseLabel
+                      >
+                      <a
+                        href="/auth/register"
+                        class="font-sans text-blue-700 hover:underline dark:text-primary-500 ml-36 mt-2"
+                      >
+                        Inscrivez vous ici</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </template>
+    <template #footer>
+      <AddModalFooter @cancel="showModalRepas = false" @send="login()" />
+    </template>
+  </TheModal>
 </template>
 <style scoped>
 .box-shadow-all-sides {

@@ -3,6 +3,7 @@
     <!-- Pour afficher le contenu de la page actuelle -->
     <component :is="$route.meta.layout">
       <router-view />
+       <loading-indicator />
       <!-- Pour afficher le contenu de la page spécifique au modèle de mise en page -->
     </component>
   </div>
@@ -10,7 +11,7 @@
     <Navbar />
     <router-view />
     <!-- Pour afficher le contenu de la page actuelle -->
-
+     <loading-indicator />
     <Footer />
   </div>
 </template>
@@ -18,12 +19,15 @@
 import Navbar from './components/Navbar.vue';
 //import HelloWorld from './components/HelloWorld.vue';
 import Footer from './components/Footer.vue';
+import LoadingIndicator from '@/components/LoadingIndicator.vue';
+
 
 
 export default {
   name: 'App',
   components: {
     //HelloWorld,
+    LoadingIndicator,
     Navbar,
     Footer,
    

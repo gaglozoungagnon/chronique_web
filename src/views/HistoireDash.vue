@@ -31,85 +31,81 @@
         />
       </div>
       <div>
-        <button
-          class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          @click="showModalRepas = true"
-        >
-          Ajouter
-        </button>
+        <router-link to="/addroman">
+          <button
+            class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          >
+            Ajouter un roman
+          </button>
+        </router-link>
       </div>
     </div>
-    <div class="flex">
+    <div class="flex" v-for="(book, index) in books" :key="index">
       <div class="w-full">
-        <div class="bg-gray-800 h-52 rounded-lg">
+        <div class="bg-gray-800 h-52 rounded-lg mt-4">
           <div class="h-6"></div>
-          <div class="flex">
-             <router-link
-              class=""
-              to="/addroman"
-            >
+          <div >
             <div class="flex">
-              <img
-                class="w-32 h-40 transform transition duration-300 hover:scale-105 relative ml-9"
-                src="../assets/OF18NR0.jpg"
-                alt=""
-              />
-              <div class="">
-                <p class="text-white text-lg font-bold ml-4 text-left">
-                  Le tritre
-                </p>
-                <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                  0 chapitre
-                </p>
-                <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                  En cours
-                </p>
-                <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                  État: Brouillon/Non publié
-                </p>
-                <p class="text-white mt-2 text-lg font-sans ml-4 text-left">
-                  Assurez-vous d'avoir rempli toutes les conditions listées dans
-                  la page de histoire
-                </p>
+                <router-link class=""  :to="`/romandeupdate/${book.id}`">
+              <div class="flex">
+                <img
+                  class="w-32 h-40 transform transition duration-300 hover:scale-105 relative ml-9"
+                  :src="book.banner_desktop"
+                  alt=""
+                />
+                <div class="">
+                  <p class="text-white text-lg font-bold ml-4 text-left">
+                    {{ book.name }}
+                  </p>
+                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                    {{book.chapters && book.chapters.length !== 0 ? book.chapters.length : '0 '}} chapitre
+                  </p>
+                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                    {{ book.status }} 
+                  </p>
+                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                    {{ book.status_publish }}
+                  </p>
+                  <p
+                    class="text-white mt-2 text-lg font-sans ml-4 text-left whitespace-nowrap"
+                  >
+                    Assurez-vous d'avoir rempli toutes les conditions listées
+                    dans la page de histoire
+                  </p>
+                </div>
               </div>
-            </div></router-link>
-            <div class="flex ml-auto text-white">
-              <router-link
-              class="mr-4"
-              to="/dash"
-            >
-             <p class=" ml-2 rounded-lg bg-green-600 px-2 py-2">Statistique</p>
-              
-            </router-link>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6 mt-2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
-                />
-              </svg>
-              <p class="mt-2 ml-2">Partager</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-9 h-9 ml-4 mr-2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                />
-              </svg>
+                </router-link>
+              <div class="flex ml-auto text-white">
+                <div>
+                  <router-link class=""  :to="`/addchapitre/${book.id}`">
+                    <button
+                      class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 whitespace-nowrap mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    >
+                      Ajouter un chapitre
+                    </button>
+                  </router-link>
+                </div>
+                <router-link class="mr-4" to="/dash">
+                  <p class="ml-2 rounded-lg bg-green-600 px-2 py-2">
+                    Statistique
+                  </p>
+                </router-link>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 mt-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                  />
+                </svg>
+                <p class="mt-2 ml-2 mr-4">Partager</p>
+              </div>
             </div>
           </div>
         </div>
@@ -228,6 +224,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import DeleteModalFooter from "../components/DeleteModalFooter.vue";
 import TheModal from "../components/TheModal.vue";
 import BaseLabel from "../components/BaseLabel.vue";
@@ -259,17 +256,56 @@ export default {
       showDeleteRepasModal: false,
       showModalRepas: false,
       showModalRepasUpdate: false,
-      repass: [],
+      books: [],
       user: "",
-      filteredRestaurants: [],
-      categorys: [],
+      filter: '',
     };
   },
-  computed: {},
-  created() {},
+  computed: {
+  filteredBooks() {
+    const searchTerm = this.filter.toLowerCase();
+
+    // Vérifiez si filter est non vide avant de filtrer les livres
+    if (searchTerm.trim() !== '') {
+      return this.books.filter((book) => {
+        const authors = book.authors.toLowerCase();
+        return authors.includes(searchTerm);
+      });
+    } else {
+      // Si filter est vide, retournez un tableau vide
+      return [];
+    }
+  }
+},
+  created() {
+     this.profile();
+    this.book();
+  },
   methods: {
     deleteRepasModal() {
       this.showDeleteRepasModal = !this.showDeleteRepasModal;
+    },
+    async profile() {
+    try {
+      const response = await axios.get("/api/profile");
+      if (response.data) {
+        this.filter = response.data.name;
+        console.log(this.filter);
+      }
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  },
+    async book() {
+      try {
+        const response = await axios.get("/api/books/user");
+        if (response.data) {
+          this.books = response.data.data;
+          console.log(this.tags);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
     },
 
     onFileChange(e) {

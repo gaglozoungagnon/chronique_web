@@ -1,57 +1,20 @@
 <template>
-
   <div
     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4 mt-9"
   >
-  <div class="flex items-center justify-between pb-4 ml-12 mr-12">
-      <label for="table-search" class="sr-only">Rechercher</label>
-      <div class="relative">
-        <div
-          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-        >
-          <svg
-            class="w-5 h-5 text-gray-500 dark:text-gray-400"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </div>
-        <input
-          type="text"
-          id="table-search"
-          wire:model="search"
-          class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Rechercher ..."
-        />
-      </div>
-      <div>
-        <router-link class="" to="/addchapitre">
-        <button
-          class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          
-        >
-          Ajouter un chapitre
-        </button>
-        </router-link>
-      </div>
+    <div class="flex items-center justify-between pb-4 ml-12 mr-12">
+      <div class="relative"></div>
     </div>
     <div class="ml-12 mr-12">
-      <form>
+      <form action="#" method="POST" @submit.prevent="addRepas()">
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold text-left text-gray-900">
-              Information complémentaire
+              Information generale du roman
             </h2>
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-3">
+              <div class="sm:col-span-2">
                 <label
                   for="first-name"
                   class="block text-sm font-bold text-left text-gray-900"
@@ -63,12 +26,13 @@
                     name="first-name"
                     id="first-name"
                     autocomplete="given-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    v-model="addform.name"
+                    class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                   />
                 </div>
               </div>
-
-              <div class="sm:col-span-3">
+          
+              <div class="sm:col-span-2">
                 <label
                   for="last-name"
                   class="block text-sm font-bold text-left text-gray-900"
@@ -80,7 +44,25 @@
                     name="last-name"
                     id="last-name"
                     autocomplete="family-name"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    v-model="addform.slug"
+                    class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                  />
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <label
+                  for="last-name"
+                  class="block text-sm font-bold text-left text-gray-900"
+                  >Tome</label
+                >
+                <div class="mt-2">
+                  <input
+                    type="number"
+                    name="last-name"
+                    id="last-name"
+                    autocomplete="family-name"
+                    v-model="addform.tome"
+                    class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                   />
                 </div>
               </div>
@@ -96,11 +78,16 @@
                     id="country"
                     name="country"
                     autocomplete="country-name"
+                    v-model="addform.category_id"
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>Mexico</option>
+                    <option
+                      v-for="(categorie, index) in categories"
+                      :key="index"
+                      :value="categorie.id"
+                    >
+                      {{ categorie.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -116,11 +103,17 @@
                     id="country"
                     name="country"
                     autocomplete="country-name"
+                    v-model="tages"
+                    
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>Mexico</option>
+                    <option
+                      v-for="(tag, index) in tags"
+                      :key="index"
+                      :value="tag.id"
+                    >
+                      {{ tag.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -132,10 +125,11 @@
                 >
                 <div class="mt-2">
                   <textarea
-                    id="about"
-                    name="about"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  ></textarea>
+                    class="block lg:w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                    autocomplete="current-password"
+                    v-model="addform.description"
+                    required
+                  />
                 </div>
               </div>
               <div class="sm:col-span-3">
@@ -144,58 +138,28 @@
                   class="block text-sm font-bold text-left text-gray-900"
                   >Cover photo</label
                 >
-                <div
-                  class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-                >
-                  <div class="text-center">
-                    <svg
-                      class="mx-auto h-12 w-12 text-gray-300"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                      <label
-                        for="file-upload"
-                        class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          class="sr-only"
-                        />
-                      </label>
-                      <p class="pl-1">or drag and drop</p>
-                    </div>
-                    <p class="text-xs leading-5 text-gray-600">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                </div>
+                <label for="images" class="drop-container" id="dropcontainer">
+                  <span class="drop-title text-gray-600">Déposer vos fichiers</span>
+                 <span class="text-gray-600"> ou</span>
+                  <input type="file"  @change="onFileChange" id="images" accept="image/*" required />
+                </label>
               </div>
+              <button
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:focus:ring-blue-800"
+              >
+              <span v-if="isLoading">
+                <spiner />
+              </span>
+              <span v-else>
+                Publier le livre</span>
+              </button>
             </div>
           </div>
         </div>
       </form>
     </div>
   </div>
-  <DeleteModalFooter
-    width="w-full md:w-2/3 lg:w-1/2"
-    :is-open="showDeleteRepasModal"
-    @cancel="showDeleteRepasModal = !showDeleteRepasModal"
-    @delete="deleteRepas()"
-  >
-    <template #header>Supprimer</template>
-    <template #body> Vous voulez suppprimer ce repas </template>
-  </DeleteModalFooter>
+
   <TheModal
     width="w-full md:w-2/3 lg:w-1/3"
     :is-open="showModalRepas"
@@ -231,96 +195,45 @@
       <AddModalFooter @cancel="showModalRepas = false" @send="addRepas()" />
     </template>
   </TheModal>
-  <TheModal
-    width="w-full md:w-2/3 lg:w-1/2"
-    :is-open="showModalRepasUpdate"
-    @close-modal="showModalRepasUpdate = false"
-  >
-    <template #header> Mettre à jour le Repas</template>
-
-    <template #body>
-      <form action="#" method="POST" @submit.prevent="addContact()">
-        <div>
-          <div class="mt-3 sm:mt-0 sm:col-span-2">
-            <div class="px-4 py-5 bg-white p-6">
-              <div class="grid grid-cols-8 gap-6">
-                <div class="col-span-8 sm:col-span-4">
-                  <BaseLabel value="Nom " />
-                  <BaseInput
-                    id="nom"
-                    v-model="addform.first_name"
-                    class="mt-2"
-                  />
-                </div>
-                <div class="col-span-8 sm:col-span-4">
-                  <BaseLabel value="Prix" />
-                  <BaseInput
-                    id="prenom"
-                    v-model="addform.last_name"
-                    class="mt-2"
-                  />
-                </div>
-                <div class="col-span-8 sm:col-span-8">
-                  <BaseLabel value="Type" />
-                  <div class="relative mt-1">
-                    <BaseInput v-model="phone" class="mt-2" />
-                  </div>
-                </div>
-                <div class="col-span-8 sm:col-span-8">
-                  <BaseLabel value="Description" />
-                  <BaseInput
-                    id="language"
-                    v-model="addform.language"
-                    class="mt-2"
-                  />
-                </div>
-                <div class="col-span-8 sm:col-span-8">
-                  <BaseLabel value="Image" />
-                  <BaseInput
-                    id="language"
-                    type="file"
-                    v-model="addform.language"
-                    class="mt-2"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </template>
-    <template #footer>
-      <AddModalFooter
-        @cancel="showModalRepasUpdate = false"
-        @send="addContact()"
-      />
-    </template>
-  </TheModal>
 </template>
 
 <script>
-import DeleteModalFooter from "../components/DeleteModalFooter.vue";
+import axios from "axios";
 import TheModal from "../components/TheModal.vue";
 import BaseLabel from "../components/BaseLabel.vue";
 import BaseInput from "../components/BaseInput.vue";
 import AddModalFooter from "../components/AddModalFooter.vue";
+import spiner from "../components/spiner.vue";
+import Noty from "noty";
+import "noty/lib/noty.css";
+import "noty/lib/themes/mint.css";
+import { mapState } from "vuex";
 export default {
   name: "RepasDash",
   components: {
-    DeleteModalFooter,
     TheModal,
     BaseLabel,
     BaseInput,
     AddModalFooter,
+    spiner
   },
   data() {
     return {
       addform: {
-        categoris_id: "",
+        slug: "",
         name: "",
+        authors: "",
+        tome: "",
         description: "",
-        prix: "",
-        image_url: "",
+        banner_desktop: "",
+        user_id: "",
+        category_id: "",
+        tags: [],
+        status: "En cours",
+        nbr_read: 0,
+        faction: false,
+        status_publish: "Publié",
+       
       },
       alert: {
         type: "",
@@ -332,17 +245,109 @@ export default {
       showModalRepasUpdate: false,
       repass: [],
       user: "",
-      filteredRestaurants: [],
-      categorys: [],
+      tages:"",
+       isLoading: false,
+    
     };
   },
-  computed: {},
-  created() {},
+  created() {
+    this.fetchCategories();
+    this.profile();
+    this.tag();
+  },
+  computed: {
+    ...mapState({
+      categories: (state) => state.categories.categories,
+    }),
+  },
   methods: {
     deleteRepasModal() {
       this.showDeleteRepasModal = !this.showDeleteRepasModal;
     },
+    async fetchCategories() {
+      this.$store.dispatch("categories/fetchCategories");
+    },
+    async profile() {
+      try {
+        const response = await axios.get("/api/profile");
+        if (response.data) {
+          this.addform.authors=response.data.name;
+          this.addform.user_id = response.data.id;
+          console.log(this.addform.user_id);
+          console.log(this.addform.authors);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+      addRepas() {
+        this.isLoading = true;
+      const formData = new FormData();
 
+      formData.append("file", this.image);
+
+      axios
+        .post("api/medias", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          if (response.status == 201) {
+            this.addform.banner_desktop = response.data.data.media_url;
+            console.log(this.addform.banner_desktop);
+            this.books();
+            
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    async books() {
+      try {
+        this.addform.tags.push(this.tages);
+        const response = await axios.post("/api/books", this.addform);
+        if (response.status == 201) {
+          this.addform= {};
+          this.isLoading = false;
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre romman à été enregistrer avec succés",
+            timeout: 5000,
+          }).show();
+          this.$router.push("/histoiredash");
+        } else {
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 5000);
+        }
+      } catch (error) {
+        if (error.response.status !== 500) {
+          this.showAlert = true;
+          this.alert.message =
+            "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
+          setTimeout(() => {
+            this.showAlert = false;
+          }, 5000);
+        }
+      }
+    },
+    async tag() {
+      try {
+        const response = await axios.get("/api/type_tags");
+        if (response.data) {
+          this.tags = response.data.data;
+          console.log(this.tags);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
     onFileChange(e) {
       const file = e.target.files[0];
       this.image = file;
@@ -350,3 +355,93 @@ export default {
   },
 };
 </script>
+<style >
+.drop-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 200px;
+  padding: 20px;
+  border: 2px dashed #222245;
+  color: #222245;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.drop-container:hover {
+  background-color: #eee;
+}
+
+.drop-title {
+  color: #222245;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+input[type="file"] {
+  width: 350px;
+  max-width: 100%;
+  color: #222245;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #222245;
+}
+
+input[type="file"]:focus {
+  outline: 2px dashed #222245;
+  outline-offset: 2px;
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: 8px;
+  border: none;
+  background-color: #222245;
+  padding: 8px 12px;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #4747b8;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    
+    color: #fff;
+  }
+
+  .drop-container {
+    border-color: #35356e;
+    color: #fff;
+  }
+
+  .drop-container:hover {
+    background-color: #282853;
+  }
+
+  .drop-title {
+    color: #fff;
+  }
+
+  input[type="file"] {
+    color: #fff;
+    border: 1px solid #35356e;
+    background-color: #1e1e3f;
+  }
+
+  input[type="file"]:focus {
+    outline: 2px dashed #7c7cc0;
+    outline-offset: 2px;
+  }
+
+  input[type="file"]::file-selector-button {
+    background-color: #35356e;
+    color: #fff;
+  }
+}
+
+</style>

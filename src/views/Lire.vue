@@ -1,21 +1,30 @@
 <template>
   <div class="bg-white sm:py-9 lg:px-8 flex">
     <div class="w-1/4">
-      <div class="h-36 mt-52">
+      <div class="h-36 mt-60">
         <div class="relative">
           <img
             class="w-full h-24 transform transition duration-300 hover:scale-105 relative"
             src="../assets/OF18NR0.jpg"
             alt=""
           />
-          <a href="#" class="">
+          <a href="#" v-if="books.user.profile_photo_path ===null" class="flex items-center justify-center">
             <img
-              class="absolute top-12 left-32 w-24 h-24 rounded-full border-2 border-white"
-              src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+              class="absolute top-12 w-24 h-24 rounded-full border-2 border-white"
+              src="../assets/download.png"
               alt=""
             />
           </a>
-          <p class="text-black mt-16 mr-6 text-2xl font-bold">Bella Roman</p>
+           <a href="#" v-else class="flex items-center justify-center">
+            <img
+              class="absolute top-12 w-24 h-24 rounded-full border-2 border-white"
+              :src="books.user.profile_photo_path"
+              alt=""
+            />
+          </a>
+          <p class="text-black mt-16 mr-6 text-2xl font-bold">{{
+                    books.authors
+                  }}</p>
           <div class="flex">
             <div class="h-12 rounded-lg mt-4 ml-24">
               <label class="inline-flex items-center">
@@ -29,6 +38,7 @@
           </div>
         </div>
       </div>
+      <button @click="prev()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -42,19 +52,19 @@
           stroke-linejoin="round"
           d="M15.75 19.5L8.25 12l7.5-7.5"
         />
-      </svg>
+      </svg></button>
     </div>
     <div class="text-center w-1/2 ml-4">
       <div class="flex">
         <div class="flex mt-4">
-          <img class="w-12" src="../assets/image.webp" alt="" />
+          <img class="w-12" :src="books.banner_desktop" alt="" />
 
           <div class="my-3 space-y-2">
             <div class="text-gray-800">
               <p class="text-gray-800 text-xl text-left ml-4 font-bold">
-                Dra-Knight
+                {{ books.name }}
               </p>
-              <p class="text-sm text-left ml-4">Action</p>
+              <p class="text-sm text-left ml-4">{{ books.category.name }}</p>
             </div>
           </div>
         </div>
@@ -95,85 +105,51 @@
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-          <spam class="mt-1 ml-4">50k</spam>
+          <spam class="mt-1 ml-4">{{ books.nbr_read }}k</spam>
         </p>
       </div>
       <hr class="border-b border-gray-300 my-4" />
-      <h1 class="text-lg font-bold tracking-tight text-gray-700 ">
-        Chapitre
+      <h1 class="text-lg font-bold tracking-tight text-gray-700">
+         Chapitre {{ index }}
       </h1>
       <h1 class="text-3xl font-bold tracking-tight text-gray-700 sm:text-5xl">
-        Sous la pluie
+        {{ chapitre.name }}
       </h1>
-      <p class="text-base text-gray-700 mt-9 text-left">
-        Sorry, we couldn’t find the page you’re looking for. Le niveau de
-        sécurité proposé par un hébergeur web doit faire partie des critères les
-        plus importants lors du choix de ce service. Sur ce plan, Hostinger se
-        démarque des concurrents du marché grâce à une panoplie complète
-        d'outils et de services améliorant au maximum la sécurité.Tout
-        l'équipement de refroidissement est à double alimentation indépendante
-        avec un taux de disponibilité de 99,995 %. Outre des sauvegardes
-        quotidiennes automatisées, les comptes sont isolés dans des conteneurs
-        LVE et protégés en temps réel contre les attaques DDoS.L’hébergeur web
-        Hostinger sécurise désormais tous les sites WordPress avec la protection
-        Patchstack. Lorsque le programme détecte une menace, il applique
-        instantanément un correctif sur le site web visé.Bienvenue sur IMMOLORD,
-        votre plateforme en ligne dédiée à l'immobilier au BÉNIN. Parce que vous
-        savez ce que vous recherchez et que nous comprenons à quel point le
-        trouver peut-être riche en émotions diverses et complexes, nous avons
-        conçu et déployé IMMOLORD. Notre plateforme vous offrira une expérience
-        immersive, pratique et fiable dans la quête de biens immobiliers. Notre
-        objectif est de connecter acquéreurs, locataires, propriétaires,
-        promoteurs, vendeurs, et autres intermédiaires, de sorte que la demande
-        et l’offre s’expriment avec clarté et précision et que les transactions
-        immobilières au BÉNIN en soient facilitées. Que vous cherchiez une
-        maison, un appartement, un terrain ou tout autre type de bien
-        immobilier, ponctuellement ou dans la durée, notre site est conçu pour
-        vous aider à trouver l'offre idéale, sans perte de temps et
-        d'énergie.Notre vaste réseau de professionnels intervenant sur les
-        chaînes de valeur de toutes sortes de transactions et de réalisations
-        immobilières, nous confère un atout indéniable. Ainsi, nous collaborons
-        étroitement avec des agences immobilières, des promoteurs réputés, des
-        architectes, des constructeurs, des notaires, des avocats, des banques,
-        des quincailleries, des experts du tourisme, etc. qui mettent à votre
-        disposition leur expertise et leur connaissance approfondie et variée du
-        contexte immobilier local. Grâce à la somme de savoirs et d’expériences
-        de cet écosystème étendu de professionnels et à notre modèle
-        opérationnel axé sur l’efficience, nous vous offrons un large éventail
-        d'annonces immobilières actualisées régulièrement, pour que vous
-        puissiez prendre des décisions éclairées. Nous nous efforçons de vous
-        offrir en permanence un environnement en ligne sécurisé et convivial. La
-        confidentialité de vos informations personnelles étant une priorité,
-        nous avons mis en place des mesures de sécurité rigoureuses pour
-        protéger vos données et garantir une expérience utilisateur en toute
-        sérénité. Chez IMMOLORD, nous mettons l'accent sur votre satisfaction et
-        restons donc à votre disposition pour recueillir vos plaintes et
-        suggestions, et les traiter de façon optimale. Explorez notre site,
-        découvrez nos annonces et démarrez votre quête immobilière dès
-        aujourd'hui sur IMMOLORD. Votre partenaire de confiance pour trouver au
-        BÉNIN, le bien immobilier à votre satisfaction.
-      </p>
+
+      <div
+        class="text-base text-gray-700 mt-9 text-left"
+        v-html="chapitre.contain"
+      ></div>
+
       <h3 class="font-bold text-gray-700 text-2xl mt-12 text-left">
         Qu'as-tu pensé du chapitre ?
       </h3>
       <div class="mt-9 bg-black h-22 rounded-lg">
         <div class="flex text-white mt-6 w-full">
-          <label class="items-center w-1/2 mt-0">
-            <p>1</p>
-            <p>BOF</p>
-          </label>
-          <label class="items-center mt-2 w-1/2">
-            <p>2</p>
-            <p>OK</p>
-          </label>
-          <label class="i items-center mt-2 w-1/2">
-            <p>3</p>
-            <p>BIEN</p>
-          </label>
-          <label class="items-center mt-2 w-1/2">
-            <p>4</p>
-            <p>SUPER</p>
-          </label>
+          <button @click="boh()" class="items-center w-1/2 mt-2    transition duration-300 hover:scale-105 transform">
+         
+              <p>1</p>
+              <p>BOF</p>
+           
+          </button>
+          <button @click="ok()" class="items-center w-1/2 mt-2    transition duration-300 hover:scale-105 transform">
+           
+              <p>2</p>
+              <p>OK</p>
+           
+          </button>
+          <button @click="bien()" class="items-center w-1/2 mt-2    transition duration-300 hover:scale-105 transform">
+            
+              <p>3</p>
+              <p>BIEN</p>
+            
+          </button>
+          <button @click="tessuper()" class="items-center w-1/2 mt-2   transition duration-300 hover:scale-105 transform">
+          
+              <p>4</p>
+              <p>SUPER</p>
+           
+          </button>
         </div>
       </div>
       <h3 class="font-bold text-gray-700 text-2xl mt-12 text-left">
@@ -181,38 +157,41 @@
       </h3>
       <div class="mt-9 bg-black h-16 rounded-lg">
         <div class="flex text-white mt-6 w-full">
-          <label class="items-center w-1/2 mt-0">
+          <button @click="recentir1()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
+          
+          
             <img class="w-9 mt-4 ml-16" src="../assets/happy.svg" alt="" />
-          </label>
-          <label class="items-center mt-2 w-1/2">
+           
+          </button>
+          <button @click="recentir2()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/lost.svg" alt="" />
-          </label>
-          <label class="i items-center mt-2 w-1/2">
+          </button>
+          <button @click="recentir3()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/sad.svg" alt="" />
-          </label>
-          <label class="items-center mt-2 w-1/2">
+          </button>
+          <button  @click="recentir4()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/scared.svg" alt="" />
-          </label>
+          </button>
         </div>
       </div>
       <div class="mt-9 bg-black h-16 rounded-lg">
         <div class="flex text-white mt-6 w-full">
-          <label class="items-center w-1/2 mt-0">
+          <button @click="recentir2()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img
               class="w-9 mt-4 ml-16"
               src="../assets/disappointed.svg"
               alt=""
             />
-          </label>
-          <label class="items-center mt-2 w-1/2">
+          </button>
+          <button  @click="recentir2()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/shocked.svg" alt="" />
-          </label>
-          <label class="i items-center mt-2 w-1/2">
+          </button>
+          <button @click="recentir1()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/impatient.svg" alt="" />
-          </label>
-          <label class="items-center mt-2 w-1/2">
+          </button>
+          <button @click="recentir4()" class="items-center w-1/2 mt-0 transition duration-300 hover:scale-105 transform">
             <img class="w-9 mt-2 ml-16" src="../assets/bored.svg" alt="" />
-          </label>
+          </button>
         </div>
       </div>
       <h3 class="font-bold text-gray-700 text-2xl mt-12 text-left">
@@ -224,14 +203,27 @@
         <input
           type="text"
           class="rounded-full px-4 focus:outline-none w-full"
+          v-model="addform.comment"
           placeholder="Votre commentaire ......."
         />
         <button
+          @click="comment()"
           class="text-sm bg-green-600 py-2 px-6 rounded-full text-white poppins ring-red-300 focus:ring-4 transition duration-300 hover:scale-105 transform"
         >
           Envoyer
         </button>
+        
       </div>
+      <h2 class="text-2xl font-semibold mt-6 text-left">Commentaires</h2>
+
+        <!-- Comment 1 -->
+        <div  v-for="(commentaire, index) in commentaires" :key="index" class="flex items-start mt-6">
+            <img src="https://via.placeholder.com/40" alt="User Avatar" class="w-10 h-10 rounded-full mr-4">
+            <div>
+                <p class="text-gray-800 text-left">{{commentaire.user_by.name}}</p>
+                <p class="text-gray-600 text-sm">{{commentaire.comment}}</p>
+            </div>
+        </div>
     </div>
     <div class="w-1/4 mt-44">
       <p class="text-gray-700 text-2xl">Partager</p>
@@ -320,14 +312,14 @@
             />
           </svg>
         </a>
-        <a>
+        <button @click="next()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-12 h-12 mt-9"
+            class="w-12 h-12 mt-24"
           >
             <path
               stroke-linecap="round"
@@ -335,18 +327,270 @@
               d="M8.25 4.5l7.5 7.5-7.5 7.5"
             />
           </svg>
-        </a>
+        </button>
       </div>
     </div>
   </div>
 </template>
       
 <script>
+import axios from "axios";
+import Noty from "noty";
+import "noty/lib/noty.css";
+import "noty/lib/themes/mint.css";
 export default {
   name: "App",
 
   data() {
-    return {};
+    return {
+      addform: {
+        comment: "",
+        book_id: "",
+        chapter_id: "",
+        user_id: "",
+        type_think_id:"",
+        nbr_rate: 0,
+      },
+      books: [],
+      commentaires:[],
+      number: "",
+      index:0,
+      chapitre: null,
+    };
+  },
+  mounted() {
+    this.number = this.$route.params.index;
+  },
+  created() {
+    this.book();
+    this.profile();
+    this.commentaire();
+  },
+  methods: {
+    async book() {
+     
+      try {
+        const response = await axios.get(`/api/books/${this.$route.params.id}`);
+        if (response.data) {
+          this.books = response.data.data;
+          this.chapitres = this.books.chapters;
+          this.index = this.$route.params.index;
+          this.chapitre = this.chapitres[this.index]
+          console.log(this.number);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+     async commentaire() {
+     
+      try {
+        //const book_id = this.$route.params.id;
+        const response = await axios.get(`/api/comments?book_id=${this.$route.params.id}`);
+        if (response.data) {
+          this.commentaires = response.data.data;
+          //this.commentaires = this.books.chapters;
+          this.index = this.$route.params.index;
+          this.chapitre = this.chapitres[this.index]
+          console.log(this.number);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async prev(){
+      this.index = parseInt(this.index, 10) - 1;
+      console.log(this.index);
+      this.chapitre = this.chapitres[this.index]
+    },
+     async next(){
+      this.index = parseInt(this.index, 10) + 1;
+      console.log(this.index);
+      this.chapitre = this.chapitres[this.index]
+    },
+    async profile() {
+      try {
+        const response = await axios.get("/api/profile");
+        if (response.data) {
+          this.addform.user_id = response.data.id;
+          console.log(this.addform.user_id);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async comment() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        this.addform.chapter_id =
+          this.books.chapters[this.$route.params.index].id;
+        const response = await axios.post(`/api/comments`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          this.commentaire();
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre commentaire à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async boh() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        //this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.nbr_rate = 1;
+        const response = await axios.post(`/api/notes`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre notes à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async ok() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        //this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.nbr_rate = 2;
+        const response = await axios.post(`/api/notes`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre notes à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async bien() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        //this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.nbr_rate = 3;
+        const response = await axios.post(`/api/notes`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre notes à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async tessuper() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        //this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.nbr_rate = 4;
+        const response = await axios.post(`/api/notes`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre notes à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async recentir1() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.type_think_id = 5;
+        const response = await axios.post(`/api/thinks`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre ressenti à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async recentir2() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.type_think_id = 3;
+        const response = await axios.post(`/api/thinks`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre ressenti à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+     async recentir3() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.type_think_id = 2;
+        const response = await axios.post(`/api/thinks`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre ressenti à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+     async recentir4() {
+      try {
+        this.addform.book_id = this.$route.params.id;
+        this.addform.chapter_id = this.books.chapters[this.$route.params.index].id ;
+        this.addform.type_think_id = 1;
+        const response = await axios.post(`/api/thinks`, this.addform);
+        if (response.status == 201) {
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Votre ressenti à été envoyer avec succés",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
   },
 };
 </script>    

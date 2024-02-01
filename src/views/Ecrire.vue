@@ -26,12 +26,12 @@
           class="bg-blue-500 transition transform duration-700 hover:shadow-xl hover:scale-105 p-4 rounded-lg relative ml-4 w-1/3"
         >
           <img
-            class="w-full h-64 transform transition duration-300 hover:scale-105"
-            src="../assets/businessman-finger-touching-empty-search-bar.jpg"
+            class="w-full h-72 transform transition duration-300 hover:scale-105"
+            src="../assets/bussiness.jpg"
             alt=""
           />
           <div class="flex flex-col items-center my-3 space-y-2">
-            <h1 class="text-green-600 poppins text-xl">Visibilité</h1>
+            <h1 class="text-black poppins text-2xl">Visibilité</h1>
             <p class="text-white poppins text-sm text-center">
               Afriplume offre une plateforme de publication qui atteint un
               public diversifié à travers tout le continent africain, offrant
@@ -43,12 +43,12 @@
           class="bg-blue-500 ml-4 transition transform duration-700 hover:shadow-xl hover:scale-105 p-4 rounded-lg relative w-1/3"
         >
           <img
-            class="w-full transform transition duration-300 hover:scale-105"
-            src="../assets/customer-experience-creative-collage.jpg"
+            class="w-full h-72 transform transition duration-300 hover:scale-105"
+            src="../assets/customer.jpg"
             alt=""
           />
           <div class="flex flex-col items-center my-3 space-y-2">
-            <h1 class="text-green-700 poppins text-xl">Interaction</h1>
+            <h1 class="text-black poppins text-2xl">Interaction</h1>
             <p class="text-white poppins text-sm text-center">
               Sur Afriplume, vous pouvez recevoir des commentaires, des
               réactions et des notes sur vos chapitres. Cela vous permet de
@@ -61,12 +61,12 @@
           class="bg-blue-500 ml-4 transition transform duration-700 hover:shadow-xl hover:scale-105 p-4 rounded-lg relative w-1/3"
         >
           <img
-            class="w-full  transform transition duration-300 hover:scale-105"
-            src="../assets/copyright-design-license-patent-trademark-value-concept.jpg"
+            class="w-full h-72 transform transition duration-300 hover:scale-105"
+            src="../assets/copyright.jpg"
             alt=""
           />
           <div class="flex flex-col items-center my-3 space-y-2">
-            <h1 class="text-green-700 poppins text-xl">Droit d’auteur</h1>
+            <h1 class="text-black poppins text-2xl">Droit d’auteur</h1>
             <p class="text-white poppins text-sm text-center">
               Nous accordons une grande importance à la protection des droits
               d’auteur. En publiant sur Afriplume, vous pouvez être sûr que
@@ -84,11 +84,11 @@
           class="bg-blue-700 w-full flex transition transform duration-700 p-4 rounded-lg relative ml-4 w-1/3 h-80 mr-24"
         >
           <img
-            class="mx-auto w-1/2 transform transition  duration-300 hover:scale-105"
+            class=" transform transition  duration-300 hover:scale-105"
             src="../assets/ethnic-employee-pressing-button.jpg"
             alt=""
           />
-          <div class="items-center my-3 w-1/2 space-y-2 mt-24">
+          <div class="items-center my-3 w-1/2 space-y-2 mt-12">
             <div class="flex">
               <h1 class="ml-9 text-white poppins text-3xl mt-1">
                 Concours d'ecriture
@@ -160,14 +160,14 @@
           class="bg-blue-700 w-full flex transition transform duration-700 p-4 rounded-lg relative ml-4 w-1/3 h-80 mr-24"
         >
           <img
-            class="mx-auto w-1/2 transform transition  duration-300 hover:scale-105"
-            src="../assets/ethnic-employee-pressing-button.jpg"
+            class=" transform transition  duration-300 hover:scale-105"
+            src="../assets/aerial-view-woman-using-retro-typewriter.jpg"
             alt=""
           />
-          <div class="items-center my-3 w-1/2 space-y-2 mt-24">
+          <div class="items-center my-3 w-1/2 space-y-2 mt-12">
             <div class="flex">
               <h1 class="ml-9 text-white poppins text-3xl mt-1">
-                Ecrire sur notre Blog
+                Decouvrir notre blog
               </h1>
             </div>
             <div class="flex ml-9">
@@ -269,9 +269,9 @@
     </h3>
 
     <div class="mt-9">
-      <button class="text-gray-700 rounded-lg bg-green-500 px-8 py-2 text-xl">
+      <router-link class="text-gray-700 rounded-lg bg-green-500 px-8 py-2 text-xl" to="/histoiredash">
         J'écris une histoire
-      </button>
+      </router-link>
     </div>
     <div class="h-6"></div>
   </div>
