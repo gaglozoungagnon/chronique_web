@@ -1,18 +1,19 @@
 <template>
   <div class="bg-white">
-    <div class="h-64">
+    <div class="lg:h-64">
       <div class=" ">
         <transition name="fade" mode="out-in">
           <div :key="currentImage">
             <img
               :src="images[currentImage].src"
               :alt="'Image ' + (currentImage + 1)"
-              class="h-64 object-cover w-full"
+              class="lg:h-64 lg:object-cover w-full h-24"
             />
           </div>
         </transition>
       </div>
     </div>
+    <!--<div> {{books}}</div>-->
 
     <!-- <div class="relative overflow-hidden mb-6 mt-24">
       <div class="flex">
@@ -207,20 +208,47 @@
       </div>
     </div>-->
 
-    <div v-if="filteredBooks.length !== 0" class="relative mt-9">
-      <h1 class="text-4xl mx-24 font-bold text-left text-gray-700">
-        Histoires en cours
+    <div v-if="filteredBookTerminer.length !== 0" class="relative">
+      <h1
+        class="lg:text-4xl text-ls lg:mx-24 ml-4 font-bold text-left text-gray-700 mt-4"
+      >
+        Les histoires terminées
       </h1>
-      <div class="mx-24">
+      <div class="lg:mx-24 lg:hidden overflow-x-auto">
+        <div class="flex p-6 lg:p-4 w-80">
+          <!-- Votre boucle ici -->
+          <div
+            v-for="(book, index) in terminers"
+            :key="index"
+            class="flex-shrink-0 lg:w-40 mx-4 md:w-24 w-24"
+          >
+            <router-link
+             :to="`/romandetail/${book.id}/${book.slug}`"
+              class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
+            >
+              <img
+                :src="book.banner_desktop"
+                :alt="book.banner_desktop"
+                class="object-cover lg:h-64 lg:w-40 w-24 h-32 rounded"
+              />
+              <div class="py-2">
+                <p class="text-sm font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
+              </div>
+            </router-link>
+          </div>
+          <!-- Fin de la boucle -->
+        </div>
+      </div>
+      <div class="mx-24 hidden md:block">
         <div class="flex p-4">
           <!-- Votre boucle ici -->
           <div
-            v-for="(book, index) in filteredBooks"
+            v-for="(book, index) in filteredBookTerminer"
             :key="index"
-            class="flex-shrink-0 lg:w-40 mx-4 md:w-24"
+            class="flex-shrink-0 w-44 mx-4"
           >
             <router-link
-              :to="`/romandetail/${book.id}`"
+             :to="`/romandetail/${book.id}/${book.slug}`"
               class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
             >
               <img
@@ -229,33 +257,13 @@
                 class="object-cover h-64 rounded"
               />
               <div class="py-5">
+                <p class="text-sm font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
                 <p
-                  class="mb-2 text-xs flex font-semibold text-gray-600 ml-16 uppercase"
+                  class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.nbr_read }} k</span>
-                </p>
-                <p class="text-2xl font-bold leading-5">{{ book.name }}</p>
-                <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
+                  {{ book.categories[0].category.name }}  <span v-if="book.categories[1]">
+    {{ book.categories[1].category.name }}
+  </span>
                 </p>
               </div>
             </router-link>
@@ -264,8 +272,8 @@
         </div>
       </div>
       <div
-        @click="prevSlide"
-        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
+        @click="prevSlide4"
+        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -283,8 +291,8 @@
         </svg>
       </div>
       <div
-        @click="nextSlide"
-        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+        @click="nextSlide4"
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -540,8 +548,37 @@
       </div>
     </div>-->
     <div v-if="filteredBooksnouveau.length !== 0" class="relative">
-      <h1 class="text-4xl mx-24 font-bold text-left text-gray-700">Nouvauté</h1>
-      <div class="mx-24">
+      <h1
+        class="lg:text-4xl text-ls lg:mx-24 ml-4 font-bold text-left text-gray-700"
+      >
+        Nouvautés
+      </h1>
+      <div class="lg:mx-24 lg:hidden overflow-x-auto">
+        <div class="flex p-6 lg:p-4 w-80">
+          <!-- Votre boucle ici -->
+          <div
+            v-for="(book, index) in books"
+            :key="index"
+            class="flex-shrink-0 lg:w-40 mx-2 md:w-24 w-24"
+          >
+            <router-link
+             :to="`/romandetail/${book.id}/${book.slug}`"
+              class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
+            >
+              <img
+                :src="book.banner_desktop"
+                :alt="book.banner_desktop"
+                class="object-cover lg:h-64 lg:w-40 w-24 h-32 rounded"
+              />
+              <div class="py-2">
+                <p class="text-sm font-bold leading-5"> {{ capitalizeFirstLetter(book.name) }}</p>
+              </div>
+            </router-link>
+          </div>
+          <!-- Fin de la boucle -->
+        </div>
+      </div>
+      <div class="mx-24 hidden md:block">
         <div class="flex p-4">
           <div
             v-for="(book, index) in filteredBooksnouveau"
@@ -549,7 +586,7 @@
             class="flex-shrink-0 lg:w-40 mx-4 md:w-24"
           >
             <router-link
-              :to="`/romandetail/${book.id}`"
+             :to="`/romandetail/${book.id}/${book.slug}`"
               class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
             >
               <img
@@ -558,33 +595,13 @@
                 class="object-cover h-64 rounded"
               />
               <div class="py-5">
+                <p class="text-sm font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
                 <p
-                  class="mb-2 text-xs flex font-semibold text-gray-600 ml-16 uppercase"
+                  class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.nbr_read }} k</span>
-                </p>
-                <p class="text-2xl font-bold leading-5">{{ book.name }}</p>
-                <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
+                  {{ book.categories[0].category.name }}  <span v-if="book.categories[1]">
+    {{ book.categories[1].category.name }}
+  </span>
                 </p>
               </div>
             </router-link>
@@ -593,7 +610,7 @@
       </div>
       <div
         @click="prevSlide1"
-        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
+        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -612,7 +629,7 @@
       </div>
       <div
         @click="nextSlide1"
-        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1312,55 +1329,65 @@
         </div>
       </div>
     </div> -->
-    <div v-if="filteredBookTerminer.length !== 0" class="relative">
-      <h1 class="text-4xl mx-24 font-bold text-left text-gray-700">
-        Les histoires terminés
+   
+ <div v-if="filteredBooks.length !== 0" class="relative mt-9">
+      <h1
+        class="lg:text-4xl text-ls lg:mx-24 ml-4 font-bold text-left text-gray-700"
+      >
+        Histoires en cours
       </h1>
-      <div class="mx-24">
-        <div class="flex p-4">
+      <div class="lg:mx-24 lg:hidden overflow-x-auto">
+        <div class="flex p-6 lg:p-4 w-80">
           <!-- Votre boucle ici -->
           <div
-            v-for="(book, index) in filteredBookTerminer"
+            v-for="(book, index) in encours"
             :key="index"
-            class="flex-shrink-0 w-44 mx-4"
+            class="flex-shrink-0 lg:w-40 mx-2 md:w-24 w-24"
           >
             <router-link
-              :to="`/romandetail/${book.id}`"
+             :to="`/romandetail/${book.id}/${book.slug}`"
               class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
             >
               <img
                 :src="book.banner_desktop"
                 :alt="book.banner_desktop"
-                class="object-cover h-64 rounded"
+                class="object-cover lg:h-64 lg:w-40 w-24 h-32 rounded"
+              />
+              <div class="py-2">
+                <p class="lg:text-xl text-sm font-bold leading-5">
+                  {{ capitalizeFirstLetter(book.name) }}
+                </p>
+              </div>
+            </router-link>
+          </div>
+          <!-- Fin de la boucle -->
+        </div>
+      </div>
+      <div class="lg:mx-24 hidden md:block">
+        <div class="flex p-6 lg:p-4">
+          <!-- Votre boucle ici -->
+          <div
+            v-for="(book, index) in filteredBooks"
+            :key="index"
+            class="flex-shrink-0 lg:w-40 mx-4 md:w-24 w-20"
+          >
+            <router-link
+              :to="`/romandetail/${book.id}/${book.slug}`"
+              class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
+            >
+              <img
+                :src="book.banner_desktop"
+                :alt="book.banner_desktop"
+                class="object-cover lg:h-64 lg:w-40 w-20 h-32 rounded"
               />
               <div class="py-5">
+                <p class="text-sm lg:font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
                 <p
-                  class="mb-2 text-xs flex font-semibold text-gray-600 ml-16 uppercase"
+                  class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.nbr_read }} k</span>
-                </p>
-                <p class="text-2xl font-bold leading-5">{{ book.name }}</p>
-                <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
+                  {{ book.categories[0].category.name }}  <span v-if="book.categories[1]">
+    {{ book.categories[1].category.name }}
+  </span>
                 </p>
               </div>
             </router-link>
@@ -1369,8 +1396,8 @@
         </div>
       </div>
       <div
-        @click="prevSlide1"
-        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
+        @click="prevSlide"
+        class="absolute top-24 lg:top-1/2 lg:left-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1378,7 +1405,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-9 h-9"
+          class="lg:w-9 lg:h-9 w-6 h-6"
         >
           <path
             stroke-linecap="round"
@@ -1388,8 +1415,8 @@
         </svg>
       </div>
       <div
-        @click="nextSlide2"
-        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+        @click="nextSlide"
+        class="absolute lg:top-1/2 top-24 lg:right-4 right-0 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1397,7 +1424,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-9 h-9"
+          class="lg:w-9 lg:h-9 w-6 h-6"
         >
           <path
             stroke-linecap="round"
@@ -1407,22 +1434,53 @@
         </svg>
       </div>
     </div>
-
+    <div v-else-if="filteredBooksnouveau.length === 0 && isLoading">
+      <div class="h-screen flex flex-col items-center justify-center">
+        <LoadingSpiner />
+      </div>
+    </div>
     <div v-if="filteredBookstout.length !== 0" class="relative">
-      <h1 class="text-4xl mx-24 font-bold text-left text-gray-700">
+      <h1
+        class="lg:text-4xl text-ls lg:mx-24 ml-4 font-bold text-left text-gray-700"
+      >
         Tout le monde en parle
       </h1>
-      <div class="mx-24">
+      <div class="lg:mx-24 lg:hidden overflow-x-auto">
+        <div class="flex p-6 lg:p-4 w-80">
+          <!-- Votre boucle ici -->
+          <div
+            v-for="(book, index) in books"
+            :key="index"
+            class="flex-shrink-0 lg:w-40 mx-4 md:w-24 w-24"
+          >
+            <router-link
+             :to="`/romandetail/${book.id}/${book.slug}`"
+              class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
+            >
+              <img
+                :src="book.banner_desktop"
+                :alt="book.banner_desktop"
+                class="object-cover lg:h-64 lg:w-40 w-24 h-32 rounded"
+              />
+              <div class="py-2">
+                <p class="text-sm font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
+              </div>
+            </router-link>
+          </div>
+          <!-- Fin de la boucle -->
+        </div>
+      </div>
+      <div class="mx-24 hidden md:block">
         <div class="flex p-4">
           <!-- Votre boucle ici -->
-          
+
           <div
             v-for="(book, index) in filteredBookstout"
             :key="index"
             class="flex-shrink-0 lg:w-40 mx-4 md:w-24"
           >
             <router-link
-              :to="`/romandetail/${book.id}`"
+             :to="`/romandetail/${book.id}/${book.slug}`"
               class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
             >
               <img
@@ -1431,33 +1489,13 @@
                 class="object-cover h-64 rounded"
               />
               <div class="py-5">
+                <p class="text-sm font-bold leading-5">{{ capitalizeFirstLetter(book.name) }}</p>
                 <p
-                  class="mb-2 text-xs flex font-semibold text-gray-600 ml-16 uppercase"
+                  class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.nbr_read }} k</span>
-                </p>
-                <p class="text-2xl font-bold leading-5">{{ book.name }}</p>
-                <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
+                  {{ book.categories[0].category.name }}  <span v-if="book.categories[1]">
+    {{ book.categories[1].category.name }}
+  </span>
                 </p>
               </div>
             </router-link>
@@ -1467,7 +1505,7 @@
       </div>
       <div
         @click="prevSlide2"
-        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer"
+        class="absolute top-1/2 left-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1486,7 +1524,7 @@
       </div>
       <div
         @click="nextSlide2"
-        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer hidden md:block"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1504,7 +1542,6 @@
         </svg>
       </div>
     </div>
-    
   </div>
   <!-- Composant de modal -->
   <ModalComponent :isOpen="isModalOpen" @close="closeModal" />
@@ -1512,17 +1549,22 @@
 
 <script>
 import ModalComponent from "../components/ModalComponent .vue";
+import LoadingSpiner from "../components/LoadingSpiner.vue";
+//import LoadingIndicator from "../components/LoadingIndicator.vue";
 import axios from "axios";
+import { mapState,mapGetters  } from "vuex";
 export default {
   name: "App",
   components: {
     ModalComponent,
+    //LoadingIndicator,
+    LoadingSpiner,
   },
   data() {
     return {
       images: [
         { src: require("@/assets/WhatsAppaccueil.jpeg") },
-        //{ src: require("@/assets/background2.jpeg") },
+        { src: require("@/assets/WhatsAppAcceul2.jpeg") },
         //{ src: require("@/assets/background1.jpeg") },
         //{ src: require("@/assets/background3.jpeg") },
       ],
@@ -1530,22 +1572,41 @@ export default {
       currentIndex: 0,
       currentIndex1: 0,
       currentIndex2: 0,
+      currentIndex4: 0,
       isDropdownOpen: false,
-      books: [],
-      terminers: [],
-      encours: [],
-      
+      //books: [],
+      //terminers: [],
+      //encours: [],
+      loading: false,
+      isLoading: false,
     };
   },
   created() {
     //this.profile();
-    this.book();
+    //this.book();
+    this.fetchBooks();
+    this.checkIfMobile();
+    window.addEventListener("resize", this.checkIfMobile);
   },
   computed: {
+    ...mapGetters(['getSearchQuery']),
+    ...mapState({
+      books: (state) => state.books.books,
+    }),
+    terminers() {
+      return this.books.filter((book) => book.status === "Terminé");
+    },
+    filteredItems() {
+      return this.encours.filter(item => 
+        item.name.toLowerCase().includes(this.getSearchQuery.toLowerCase())
+      );
+    },
+    encours() {
+      return this.books.filter((book) => book.status === "En cours");
+    },
     filteredBooks() {
       return this.encours.slice(this.currentIndex, this.currentIndex + 6);
     },
-
     filteredBooksnouveau() {
       return this.books.slice(this.currentIndex1, this.currentIndex1 + 6);
     },
@@ -1553,10 +1614,27 @@ export default {
       return this.books.slice(this.currentIndex2, this.currentIndex2 + 6);
     },
     filteredBookTerminer() {
-      return this.terminers.slice(this.currentIndex, this.currentIndex + 6);
+      return this.terminers.slice(this.currentIndex4, this.currentIndex4 + 6);
     },
   },
+  unmounted() {
+    window.removeEventListener("resize", this.checkIfMobile);
+  },
   methods: {
+    capitalizeFirstLetter(text) {
+      if (!text) return '';
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
+    async fetchBooks() {
+      this.isLoading = true;
+      const books = await this.$store.dispatch("books/fetchBooks");
+      //this.terminers = this.books.filter((book) => book.status === "Terminé");
+      //this.encours = this.books.filter((book) => book.status === "En cours");
+      if (books.length > 0) {
+        
+        this.isLoading = false;
+      }
+    },
     startSlider() {
       setInterval(() => {
         this.currentImage = (this.currentImage + 1) % this.images.length;
@@ -1580,10 +1658,19 @@ export default {
         console.log(error.data);
       }
     },
+    checkIfMobile() {
+      this.isMobile = window.innerWidth < 768; // Modifiez cette valeur selon vos besoins
+    },
     prevSlide() {
       this.currentIndex = Math.max(0, this.currentIndex - 1);
     },
     nextSlide() {
+      this.currentIndex = Math.min(
+        this.encours.length - 5,
+        this.currentIndex + 1
+      );
+    },
+    nextSlider8() {
       this.currentIndex = Math.min(
         this.books.length - 5,
         this.currentIndex + 1
@@ -1605,6 +1692,15 @@ export default {
       this.currentIndex2 = Math.min(
         this.books.length - 5,
         this.currentIndex2 + 1
+      );
+    },
+     prevSlide4() {
+      this.currentIndex4 = Math.max(0, this.currentIndex4 - 1);
+    },
+    nextSlide4() {
+      this.currentIndex4 = Math.min(
+        this.terminers.length - 5,
+        this.currentIndex4 + 1
       );
     },
     updateSlider() {

@@ -5,10 +5,10 @@
     <div class="flex flex-wrap -mx-3 mb-20">
       <div class="w-1/2 xl:w-1/4 px-3">
         <div
-          class="w-full bg-white border text-blue-400 rounded-lg flex p-6 mb-6 xl:mb-0"
+          class="w-full bg-white border text-blue-400 rounded-lg lg:flex p-6 mb-6 xl:mb-0"
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
+            class="w-16 h-16 fill-current lg:mr-4 ml-4 lg:ml-0 "
             viewBox="0 0 20 20"
           >
             <path
@@ -17,18 +17,18 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-bold text-3xl">0</p>
-            <p class="font-bold text-sm whitespace-nowrap">Nombre total de livre</p>
+            <p class="font-bold text-3xl">{{books.length}}</p>
+            <p class="font-bold text-sm lg:whitespace-nowrap">Nombre total de livre</p>
           </div>
         </div>
       </div>
 
       <div class="w-1/2 xl:w-1/4 px-3">
         <div
-          class="w-full bg-white border text-blue-400 rounded-lg flex p-6 mb-6 xl:mb-0"
+          class="w-full bg-white border text-blue-400 rounded-lg lg:flex p-6 mb-6 xl:mb-0"
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
+            class="w-16 h-16 fill-current lg:mr-4 ml-4 lg:ml-0"
             viewBox="0 0 20 20"
           >
             <path
@@ -38,17 +38,17 @@
 
           <div class="text-gray-700">
             <p class="font-semibold text-3xl">0</p>
-            <p class="font-bold text-sm whitespace-nowrap">Note moyenne</p>
+            <p class="font-bold text-sm lg:whitespace-nowrap">Note moyenne</p>
           </div>
         </div>
       </div>
 
       <div class="w-1/2 xl:w-1/4 px-3">
         <div
-          class="w-full bg-white border text-blue-400 rounded-lg flex p-6"
+          class="w-full bg-white border text-blue-400 rounded-lg lg:flex p-6"
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
+            class="w-16 h-16 fill-current lg:mr-4 ml-4 lg:ml-0"
             viewBox="0 0 20 20"
           >
             <path
@@ -57,18 +57,18 @@
           </svg>
 
           <div class="text-gray-700">
-            <p class="font-semibold text-3xl">0</p>
-            <p class="font-bold text-sm whitespace-nowrap">Nombre total d’abonnés</p>
+            <p class="font-semibold text-3xl">{{abonner.length}}</p>
+            <p class="font-bold text-sm lg:whitespace-nowrap">Nombre total d’abonnés</p>
           </div>
         </div>
       </div>
 
       <div class="w-1/2 xl:w-1/4 px-3 ">
         <div
-          class="w-full bg-white border text-blue-400 rounded-lg flex p-4"
+          class="w-full bg-white border text-blue-400 rounded-lg lg:flex p-4"
         >
           <svg
-            class="w-16 h-16 fill-current mr-4 hidden lg:block"
+            class="w-16 h-16 fill-current lg:mr-4 ml-4 lg:ml-0"
             viewBox="0 0 20 20"
           >
             <path
@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap mt-0">
+    <div class="lg:flex lg:flex-wrap mt-0">
       <div class="w-full xl:w-1/3 px-3">
         <p class="text-xl font-semibold mb-4">Recent Sales</p>
 
@@ -106,16 +106,7 @@
       <div class="w-full xl:w-1/3 px-3">
         <p class="text-xl font-semibold mb-4">Recent Transactions</p>
         <div class="w-full bg-white border rounded-lg p-4">
-          <div
-            class="w-full bg-gray-100 border rounded-lg flex  px-4 py-2 mb-4"
-          >
-            <div>
-              <p class="font-bold text-sm  whitespace-nowrap">
-                Temps moyen de lecture 
-              </p>
-            </div>
-            <span class="text-green-500 font-semibold text-lg ml-6">0</span>
-          </div>
+          
 
           <div
             class="w-full bg-gray-100 border rounded-lg flex px-4 py-2 mb-4"
@@ -123,7 +114,7 @@
             <div>
               <p class="font-bold text-sm whitespace-nowrap">Nombre total de commentaires</p>
             </div>
-            <span class="text-green-500 font-semibold text-lg ml-4">0</span>
+            <span class="text-green-500 font-semibold text-lg ml-4">{{nbrCommentaire}}</span>
           </div>
 
           <div
@@ -132,7 +123,7 @@
             <div>
               <p class="font-bold text-sm whitespace-nowrap">Nombre de lectures unique.</p>
             </div>
-            <span class="text-green-500 font-semibold text-lg ml-6">0</span>
+            <span class="text-green-500 font-semibold text-lg ml-6">{{nbrVue}}</span>
           </div>
 
           <div
@@ -302,6 +293,7 @@ import TheModal from "../components/TheModal.vue";
 import BaseLabel from "../components/BaseLabel.vue";
 import BaseInput from "../components/BaseInput.vue";
 import AddModalFooter from "../components/AddModalFooter.vue";
+import axios from "axios";
 export default {
   name: "RepasDash",
   components: {
@@ -332,18 +324,57 @@ export default {
       user: "",
       filteredRestaurants: [],
       categorys: [],
+       profileID: "",
+       abonner:[],
+        books: [],
+        nbrCommentaire:"",
+        nbrMoyenne:"",
+        nbrVue:"",
     };
   },
   computed: {},
-  created() {},
+  created() {
+    this.profile();
+    this.book();
+  },
   methods: {
-    deleteRepasModal() {
-      this.showDeleteRepasModal = !this.showDeleteRepasModal;
+  
+    async profile() {
+      try {
+        const response = await axios.get("/api/profile");
+        if (response.data) {
+          this.profileID = response.data.data.id;
+          this.nbrCommentaire = response.data.data.nbr_comments;
+          this.nbrVue = response.data.data.nbr_book_reads;
+          this.subgt(this.profileID);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
     },
+   async subgt(userId) {
+      try {
+       
+        const response = await axios.get(`/api/subscribers?autor_id=${userId}`);
 
-    onFileChange(e) {
-      const file = e.target.files[0];
-      this.image = file;
+        if (response.data) {
+          this.abonner = response.data.data;
+          
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+   async book() {
+      try {
+        const response = await axios.get("/api/books/user");
+        if (response.data) {
+          this.books = response.data.data;
+          console.log(this.tags);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
     },
   },
 };

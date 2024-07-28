@@ -2,17 +2,17 @@
 
 <div class="flex ">
   <!-- Barre latérale -->
-  <div class="w-2/4   ">
+  <div class="lg:w-2/4   hidden md:block">
     <!-- Logo du tableau de bord -->
-    <router-link class="" to="/">
-        <img src="../assets/business-woman-working-home.jpg" alt="Logo" class="w-full h-screen" />
+    <router-link class="" to="/home">
+        <img src="../assets/young-woman-working-from-modern-home.jpg" alt="Logo" class="w-full h-screen" />
         
       </router-link>
     
   </div>
 
   <!-- Contenu du tableau de bord -->
-  <div class="w-2/4 p-4 ">
+  <div class="lg:w-2/4 p-4 w-full">
     <slot/>
   </div>
 </div>

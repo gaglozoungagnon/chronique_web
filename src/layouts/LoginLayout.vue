@@ -2,14 +2,14 @@
  <!-- Barre latérale -->
   <div class=" h-screen  ">
     <!-- Logo du tableau de bord -->
-    <router-link class=" " to="/">
+    <router-link class=" " to="/home">
        
-        <img src="../assets/AFRIPLUMELOGO.jpg" alt="Logo" class="h-24  w-auto mx-auto my-auto mt-9" />
+        <img src="../assets/AP.png" alt="Logo" class="h-24  w-auto mx-auto my-auto mt-9" />
         
         
       </router-link>
   <!-- Contenu du tableau de bord -->
-  <div class="w-full p-4">
+  <div class="w-full ">
     <slot/>
   </div>
 </div>
@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .custom-background {
-  background-image: url('~@/assets/hero.png');
+  background-image: url('~@/assets/full-shot-smiley-woman-watching-movie-tablet.jpg');
   /* Remplacez 'votre-image.jpg' par le nom de votre image */
   background-size: cover;
   /* Ajustez la taille de l'image */

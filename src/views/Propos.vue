@@ -8,7 +8,7 @@
           <div class="w-full lg:max-w-md">
             <h2 class="mb-4 text-2xl font-bold">À propos de nous</h2>
             <h2
-              class="mb-4 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-left "
+              class="mb-4 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 text-left"
             >
               POURQUOI NOUS CHOISIR?
             </h2>
@@ -127,7 +127,7 @@
         <div class="w-full px-3 mb-12 lg:w-1/2 order-0 lg:order-1 lg:mb-0">
           <img
             class="mx-auto sm:max-w-sm lg:max-w-full"
-            src="https://cdn.pixabay.com/photo/2020/12/31/12/28/cook-5876388_960_720.png"
+            src="../assets/_fb368da7-465d-40c0-a902-38d808a3171c.jpeg"
             alt="feature image"
           />
         </div>
@@ -139,15 +139,20 @@
       Notre Engagement
     </h2>
 
-    <p class="mb-4 font-medium tracking-tight text-gray-400 xl:mb-6 ml-64 mr-64">
+    <p
+      class="mb-4 font-medium tracking-tight text-gray-400 xl:mb-6 lg:ml-64 lg:mr-64 mx-6 lg:mx-0"
+    >
       Chez Afriplume, nous nous engageons à soutenir et à promouvoir les talents
       littéraires africains. Nous travaillons en étroite collaboration avec des
       écrivains émergents et établis pour offrir des opportunités de publication
       et de visibilité. De plus, nous organisons des concours littéraires et des
       événements pour mettre en lumière les œuvres exceptionnelles.
     </p>
-    <p class="mb-4 font-medium mt-6 tracking-tight text-gray-400 xl:mb-6 ml-64 mr-64">
-      Explorez, écrivez, partagez, et découvrez l'univers riche et captivant de Afriplum.
+    <p
+      class="mb-4 font-medium mt-6 tracking-tight text-gray-400 xl:mb-6 lg:ml-64 lg:mr-64 mx-6 lg:mx-0"
+    >
+      Explorez, écrivez, partagez, et découvrez l'univers riche et captivant de
+      Afriplum.
     </p>
   </section>
   <section class="pt-12 pb-12 bg-red-50">
@@ -158,27 +163,12 @@
         <h1
           class="mb-4 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500"
         >
-          Votre avis de nos services
+          Votre avis 
         </h1>
-        <div class="gap-2 mb-8 lg:flex">
-          <div class="w-full">
-            <input
-              type="text"
-              class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-              placeholder="Votre nom"
-            />
-          </div>
-          <div class="w-full">
-            <input
-              type="text"
-              class="w-full px-4 py-2 text-base border rounded-md focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-600"
-              placeholder="Votre numéro"
-            />
-          </div>
-        </div>
 
         <div class="">
           <textarea
+          v-model="addform.comment"
             name=""
             id=""
             rows="8"
@@ -189,86 +179,89 @@
         </div>
         <button
           class="px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green"
-          href="#"
+          @click="AddAvis()"
         >
-          Envoyer
+          <span v-if="isLoading">
+            <spiner />
+          </span>
+          <spam v-else> <span> Envoyer</span></spam>
         </button>
       </div>
     </div>
   </section>
 </template>
-  
+
 <script>
+import axios from "axios";
+import Noty from "noty";
+import "noty/lib/noty.css";
+import "noty/lib/themes/mint.css";
+import spiner from "../components/spiner.vue";
 export default {
   name: "App",
+  components: {
+    spiner,
+  },
   data() {
     return {
-      currentImage: 0,
       addform: {
-        repas_id: "",
-        restaurant_id: "",
-        name: "",
-        contact: "",
-        status: "En cours",
-        description: "",
-        adresse: "",
+        comment: "",
+        status:false,
         user_id: "",
-        quantite: "",
-        montant: "1500FCFA",
       },
-      restaurants: [],
-      repass: [],
-      user: "",
+
+      userID: "",
       filter: "",
-      filteredRespas: [],
+      isLoading: false,
     };
   },
-  computed: {
-    filteredRepas() {
-      const searchTerm = this.filter.toLowerCase();
-      const filtered_data = this.repass.filter((repass) => {
-        const name = repass.name.toLowerCase();
-        return name.includes(searchTerm);
-      });
-
-      return filtered_data;
-    },
-    filteredRestaurants() {
-      const searchTerm = this.filter.toLowerCase();
-      const filtered_data = this.restaurants.filter((restaurants) => {
-        const name = restaurants.name.toLowerCase();
-        const adresse = restaurants.adresse.toLowerCase();
-        return name.includes(searchTerm) || adresse.includes(searchTerm);
-      });
-      return filtered_data;
-    },
-  },
-  mounted() {
-    this.startSlider();
-    //this.profile();
-    // this.restaurant();
-    //this.getRepas();
+  created() {
+    this.profile();
+    //this.book();
   },
   methods: {
+    async profile() {
+      try {
+        const response = await axios.get("/api/profile");
+        if (response.data) {
+          this.userID = response.data.data.id;
+          window.scrollTo(0, 0);
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
+    async AddAvis() {
+      try {
+        this.isLoading = true;
+        this.addform.user_id = this.userID;
+        const response = await axios.post(`/api/testimonies`, this.addform);
+        if (response.status == 201) {
+          this.isLoading = false;
+          this.addform = {};
+          new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Merci pour votre avis.",
+            timeout: 5000,
+          }).show();
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
     startSlider() {
       setInterval(() => {
         this.currentImage = (this.currentImage + 1) % this.images.length;
       }, 5000); // Défilement toutes les 5 secondes
     },
-    search() {
-      if (this.addform.repas_id !== "") {
-        this.filter = "";
-      }
-    },
-    searchr() {
-      if (this.addform.restaurant_id !== "") {
-        this.filter = "";
-      }
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
     },
   },
 };
 </script>
-  
+
 <style scoped>
 /* Ajoutez des styles personnalisés pour le slider ici */
 .fade-enter-active,
@@ -281,4 +274,3 @@ export default {
   opacity: 0;
 }
 </style>
-  

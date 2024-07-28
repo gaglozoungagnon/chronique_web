@@ -3,7 +3,7 @@
     <div class="h-44 bg-gray-800 flex items-center justify-center">
       <h1 class="font-bold text-4xl text-white">Conditions d'utilisations</h1>
     </div>
-    <div class="text-center  ml-44 mr-44 bg-gray-100 p-4">
+    <div class="text-center  lg:ml-44 lg:mr-44 bg-gray-100 p-4">
       <h1 class="font-bold text-2xl text-gray-700 mt-4">
         Conditions d’utilisation pour l’application dAfriplume Accès et
         utilisation de l’application:

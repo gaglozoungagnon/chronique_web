@@ -1,9 +1,10 @@
 <template>
   <div class="bg-white">
-    <div class="mx-24 mt-32">
+    <div class="lg:mx-24 mx-6 mt-12">
       <h1 class="text-4xl font-bold text-left text-gray-700">Jeux Concours</h1>
+    <div class=" ">
       <div
-        class="grid gap-5 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full mt-4"
+        class="grid grid-cols-2 lg:grid-cols-5 p-4 gap-4"
       >
         <div
           class="overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
@@ -130,110 +131,10 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="mx-24 mt-6">
-      <div
-        class="grid gap-5 lg:grid-cols-4 sm:max-w-sm sm:mx-auto lg:max-w-full mt-4"
-      >
-        <div
-          class="overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
-        >
-          <a href="/" aria-label="Article"
-            ><img
-              src="../assets/15.jpeg"
-              class="object-cover w-full h-64 rounded"
-              alt=""
-          /></a>
-          <div class="py-5">
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              13 Jul 2020
-            </p>
-            <a
-              href="/"
-              aria-label="Article"
-              class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"
-            >
-              <p class="text-2xl font-bold leading-5">Diving to the deep</p>
-            </a>
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              Romance
-            </p>
-          </div>
-        </div>
-        <div
-          class="overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
-        >
-          <a href="/" aria-label="Article"
-            ><img
-              src="../assets/16.jpeg"
-              class="object-cover w-full h-64 rounded"
-              alt=""
-          /></a>
-          <div class="py-5">
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              13 Jul 2020
-            </p>
-            <a
-              href="/"
-              aria-label="Article"
-              class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"
-            >
-              <p class="text-2xl font-bold leading-5">Diving to the deep</p>
-            </a>
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              Romance
-            </p>
-          </div>
-        </div>
-        <div class="overflow-hidden transition-shadow duration-300 rounded">
-          <a href="/" aria-label="Article"
-            ><img
-              src="../assets/4.jpeg"
-              class="object-cover w-full h-64 rounded"
-              alt=""
-          /></a>
-          <div class="py-5">
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              28 Dec 2020
-            </p>
-            <a
-              href="/"
-              aria-label="Article"
-              class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"
-            >
-              <p class="text-2xl font-bold leading-5">Explore the beautiful</p>
-            </a>
-            <p class="mb-4 text-gray-700">Thiller</p>
-          </div>
-        </div>
-        <div
-          class="overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
-        >
-          <a href="/" aria-label="Article"
-            ><img
-              src="../assets/8.jpeg"
-              class="object-cover w-full h-64 rounded"
-              alt=""
-          /></a>
-          <div class="py-5">
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              13 Jul 2020
-            </p>
-            <a
-              href="/"
-              aria-label="Article"
-              class="inline-block mb-3 text-black transition-colors duration-200 hover:text-deep-purple-accent-700"
-            >
-              <p class="text-2xl font-bold leading-5">Diving to the deep</p>
-            </a>
-            <p class="mb-2 text-xs font-semibold text-gray-600 uppercase">
-              Romance
-            </p>
-          </div>
-        </div>
       </div>
     </div>
+
+
   </div>
   <!-- Composant de modal -->
   <ModalComponent :isOpen="isModalOpen" @close="closeModal" />

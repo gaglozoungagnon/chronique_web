@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between pb-4 ml-12 mr-12">
       <div class="relative"></div>
     </div>
-    <div class="ml-12 mr-12">
+    <div class="lg:ml-12 lg:mr-12">
       <form action="#" method="POST" @submit.prevent="addRepas()">
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
@@ -27,11 +27,12 @@
                     id="first-name"
                     autocomplete="given-name"
                     v-model="addform.name"
+                    required
                     class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                   />
                 </div>
               </div>
-          
+
               <div class="sm:col-span-2">
                 <label
                   for="last-name"
@@ -45,6 +46,7 @@
                     id="last-name"
                     autocomplete="family-name"
                     v-model="addform.slug"
+                    required
                     class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                   />
                 </div>
@@ -62,6 +64,7 @@
                     id="last-name"
                     autocomplete="family-name"
                     v-model="addform.tome"
+                    required
                     class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                   />
                 </div>
@@ -74,21 +77,17 @@
                   >Genres</label
                 >
                 <div class="mt-2">
-                  <select
-                    id="country"
-                    name="country"
-                    autocomplete="country-name"
-                    v-model="addform.category_id"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  >
-                    <option
-                      v-for="(categorie, index) in categories"
-                      :key="index"
-                      :value="categorie.id"
-                    >
-                      {{ categorie.name }}
-                    </option>
-                  </select>
+                  <v-select
+                    multiple
+                    v-model="addform.categories"
+                    :options="categories"
+                    label="name"
+                    :reduce="(categorie) => categorie.id"
+                    @input="validateCategories"
+                  />
+                  <span v-if="errors.categories" class="text-red-500">{{
+                    errors.categories
+                  }}</span>
                 </div>
               </div>
 
@@ -99,22 +98,14 @@
                   >Tags</label
                 >
                 <div class="mt-2">
-                  <select
-                    id="country"
-                    name="country"
-                    autocomplete="country-name"
-                    v-model="tages"
+                  <v-select
+                    multiple
+                    v-model="addform.tags"
+                    :options="tags"
+                    label="name"
+                    :reduce="(tag) => tag.id"
                     
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  >
-                    <option
-                      v-for="(tag, index) in tags"
-                      :key="index"
-                      :value="tag.id"
-                    >
-                      {{ tag.name }}
-                    </option>
-                  </select>
+                  />
                 </div>
               </div>
               <div class="sm:col-span-3">
@@ -125,7 +116,7 @@
                 >
                 <div class="mt-2">
                   <textarea
-                    class="block lg:w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                    class="block w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                     autocomplete="current-password"
                     v-model="addform.description"
                     required
@@ -139,19 +130,26 @@
                   >Cover photo</label
                 >
                 <label for="images" class="drop-container" id="dropcontainer">
-                  <span class="drop-title text-gray-600">Déposer vos fichiers</span>
-                 <span class="text-gray-600"> ou</span>
-                  <input type="file"  @change="onFileChange" id="images" accept="image/*" required />
+                  <span class="drop-title text-gray-600"
+                    >Déposer vos fichiers</span
+                  >
+                  <span class="text-gray-600"> ou</span>
+                  <input
+                    type="file"
+                    @change="onFileChange"
+                    id="images"
+                    accept="image/*"
+                    required
+                  />
                 </label>
               </div>
               <button
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:focus:ring-blue-800"
               >
-              <span v-if="isLoading">
-                <spiner />
-              </span>
-              <span v-else>
-                Publier le livre</span>
+                <span v-if="isLoading" class="ml-9">
+                  <spiner />
+                </span>
+                <span v-else> Publier le livre</span>
               </button>
             </div>
           </div>
@@ -203,6 +201,8 @@ import TheModal from "../components/TheModal.vue";
 import BaseLabel from "../components/BaseLabel.vue";
 import BaseInput from "../components/BaseInput.vue";
 import AddModalFooter from "../components/AddModalFooter.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 import spiner from "../components/spiner.vue";
 import Noty from "noty";
 import "noty/lib/noty.css";
@@ -215,7 +215,8 @@ export default {
     BaseLabel,
     BaseInput,
     AddModalFooter,
-    spiner
+    vSelect,
+    spiner,
   },
   data() {
     return {
@@ -227,13 +228,12 @@ export default {
         description: "",
         banner_desktop: "",
         user_id: "",
-        category_id: "",
-        tags: [],
+        categories: "",
+        tags: "",
         status: "En cours",
         nbr_read: 0,
         faction: false,
         status_publish: "Publié",
-       
       },
       alert: {
         type: "",
@@ -245,10 +245,13 @@ export default {
       showModalRepasUpdate: false,
       repass: [],
       user: "",
-      tages:"",
-       isLoading: false,
-    
+      tages: "",
+      isLoading: false,
+      errors: {
+        categories: null
+      }
     };
+    
   },
   created() {
     this.fetchCategories();
@@ -261,6 +264,13 @@ export default {
     }),
   },
   methods: {
+    validateCategories() {
+      if (this.addform.categories.length === 0) {
+        this.errors.categories = 'Ce champ est obligatoire.';
+      } else {
+        this.errors.categories = null;
+      }
+        },
     deleteRepasModal() {
       this.showDeleteRepasModal = !this.showDeleteRepasModal;
     },
@@ -271,8 +281,8 @@ export default {
       try {
         const response = await axios.get("/api/profile");
         if (response.data) {
-          this.addform.authors=response.data.name;
-          this.addform.user_id = response.data.id;
+          this.addform.authors = response.data.data.name;
+          this.addform.user_id = response.data.data.id;
           console.log(this.addform.user_id);
           console.log(this.addform.authors);
         }
@@ -280,10 +290,19 @@ export default {
         console.log(error.data);
       }
     },
-      addRepas() {
-        this.isLoading = true;
-      const formData = new FormData();
+    addRepas() {
+      this.isLoading = true;
 
+      // Vérifier la taille de l'image
+      if (this.image && this.image.size > 3 * 1024 * 1024) {
+        alert(
+          "La taille de l'image dépasse 3 Mo. Veuillez sélectionner une image plus petite."
+        );
+        this.isLoading = false; // Arrêter le chargement
+        return; // Arrêter la fonction addRepas
+      }
+
+      const formData = new FormData();
       formData.append("file", this.image);
 
       axios
@@ -291,25 +310,43 @@ export default {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          // Définir un délai d'attente de 1 minute (en millisecondes)
+          timeout: 60000,
         })
         .then((response) => {
-          if (response.status == 201) {
+          if (response.status === 201) {
             this.addform.banner_desktop = response.data.data.media_url;
             console.log(this.addform.banner_desktop);
             this.books();
-            
           }
         })
         .catch((error) => {
-          console.error(error);
+          if (error.code === "ECONNABORTED") {
+            console.error("Le délai d'attente de la requête a été dépassé.");
+            alert("Le délai d'attente de la requête a été dépassé."); // Alerter l'utilisateur
+          }
+          if (error.response) {
+            console.error(error.response.data);
+            console.error(error.response.status);
+            console.error(error.response.headers);
+          } else if (error.request) {
+            // La requête a été faite mais aucune réponse n'a été reçue
+            console.error(error.request);
+          } else {
+            // Une erreur est survenue lors de la configuration de la requête
+            console.error("Error", error.message);
+          }
+        })
+        .finally(() => {
+          // Réinitialiser isLoading après l'exécution de la requête
+          this.isLoading = false;
         });
     },
     async books() {
       try {
-        this.addform.tags.push(this.tages);
         const response = await axios.post("/api/books", this.addform);
         if (response.status == 201) {
-          this.addform= {};
+          this.addform = {};
           this.isLoading = false;
           new Noty({
             type: "success",
@@ -350,12 +387,14 @@ export default {
     },
     onFileChange(e) {
       const file = e.target.files[0];
-      this.image = file;
+      if (file) {
+        this.image = file;
+      }
     },
   },
 };
 </script>
-<style >
+<style>
 .drop-container {
   display: flex;
   flex-direction: column;
@@ -403,14 +442,15 @@ input[type="file"]::file-selector-button {
   color: #fff;
   cursor: pointer;
 }
-
+.text-red-500 {
+  color: red;
+}
 input[type="file"]::file-selector-button:hover {
   background-color: #4747b8;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    
     color: #fff;
   }
 
@@ -443,5 +483,4 @@ input[type="file"]::file-selector-button:hover {
     color: #fff;
   }
 }
-
 </style>

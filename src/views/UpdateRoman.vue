@@ -5,8 +5,8 @@
     <div class="flex items-center justify-between pb-4 ml-12 mr-12">
       <div class="relative"></div>
     </div>
-    <div class="ml-12 mr-12">
-      <form action="#" method="POST" @submit.prevent="updateRoman()">
+    <div class="lg:ml-12 lg:mr-12">
+      <form action="#" method="POST" @submit.prevent="submitForm()">
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold text-left text-gray-900">
@@ -144,7 +144,7 @@
                 >
                 <div class="mt-2">
                   <textarea
-                    class="block lg:w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                    class="block w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                     autocomplete="current-password"
                     v-model="book.description"
                     required
@@ -173,7 +173,11 @@
               <button
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:focus:ring-blue-800"
               >
-                Publier le livre
+              <span v-if="isLoading">
+                <spiner />
+              </span>
+              <span v-else>
+                Enregistrer les modifications</span>
               </button>
             </div>
           </div>
@@ -186,12 +190,15 @@
 <script>
 import axios from "axios";
 import Noty from "noty";
+import spiner from "../components/spiner.vue";
 import "noty/lib/noty.css";
 import "noty/lib/themes/mint.css";
 import { mapState } from "vuex";
 export default {
   name: "RepasDash",
-  components: {},
+  components: {
+    spiner,
+  },
   data() {
     return {
       addform: {
@@ -219,6 +226,8 @@ export default {
       book: [],
       user: "",
       tages: [],
+      isLoading: false,
+
      
     };
   },
@@ -240,7 +249,7 @@ export default {
       try {
         const response = await axios.get("/api/profile");
         if (response.data) {
-          this.addform.user_id = response.data.id;
+          this.addform.user_id = response.data.data.id;
         }
       } catch (error) {
         console.log(error.data);
@@ -259,14 +268,75 @@ export default {
         console.log(error.data);
       }
     },
+    submitForm() {
+      if (this.image) {
+        this.addRepas();
+      } else {
+        this.updateRoman();
+      }
+    },
+     addRepas() {
+      this.isLoading = true;
+
+      // Vérifier la taille de l'image
+      if (this.image && this.image.size > 3 * 1024 * 1024) {
+        alert(
+          "La taille de l'image dépasse 3 Mo. Veuillez sélectionner une image plus petite."
+        );
+        this.isLoading = false; // Arrêter le chargement
+        return; // Arrêter la fonction addRepas
+      }
+
+      const formData = new FormData();
+      formData.append("file", this.image);
+
+      axios
+        .post("api/medias", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          // Définir un délai d'attente de 1 minute (en millisecondes)
+          timeout: 60000,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            this.book.banner_desktop = response.data.data.media_url;
+            //console.log(this.book.banner_desktop);
+            this.updateRoman();
+          }
+        })
+        .catch((error) => {
+          if (error.code === "ECONNABORTED") {
+            console.error("Le délai d'attente de la requête a été dépassé.");
+            alert("Le délai d'attente de la requête a été dépassé."); // Alerter l'utilisateur
+          }
+          if (error.response) {
+            console.error(error.response.data);
+            console.error(error.response.status);
+            console.error(error.response.headers);
+          } else if (error.request) {
+            // La requête a été faite mais aucune réponse n'a été reçue
+            console.error(error.request);
+          } else {
+            // Une erreur est survenue lors de la configuration de la requête
+            console.error("Error", error.message);
+          }
+        })
+        .finally(() => {
+          // Réinitialiser isLoading après l'exécution de la requête
+          this.isLoading = false;
+        });
+    },
     async updateRoman() {
       try {
+        this.isLoading = true;
         const response = await axios.post(
           `/api/books/${this.$route.params.id}`,
           this.book
         );
-        if (response.status == 201) {
-          this.addform = {};
+        if (response.status == 201 || response.status == 200 ) {
+          this.isLoading = false;
+
           new Noty({
             type: "success",
             layout: "topRight",
@@ -283,7 +353,8 @@ export default {
           }, 5000);
         }
       } catch (error) {
-        if (error.response.status !== 500) {
+        if (error.response.status == 500) {
+          this.isLoading = false;
           this.showAlert = true;
           this.alert.message =
             "Quelque chose c'est mal passé. Merci d'essayer plus tard!";
@@ -291,6 +362,12 @@ export default {
             this.showAlert = false;
           }, 5000);
         }
+      }
+    },
+    onFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        this.image = file;
       }
     },
   },

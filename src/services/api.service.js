@@ -16,17 +16,12 @@ const ApiService = {
   async init(baseURL) {
     console.log(baseURL);
     axios.defaults.baseURL = baseURL;
-    
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.withCredentials = true;
 
     this.mount401Interceptor();
   },
 
   setHeader() {
     axios.defaults.headers.common.Authorization = `Bearer ${TokenService.getToken()}`;
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
   },
 
   removeHeader() {

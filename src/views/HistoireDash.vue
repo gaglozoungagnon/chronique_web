@@ -4,7 +4,7 @@
   >
     <div class="flex items-center justify-between pb-4">
       <label for="table-search" class="sr-only">Rechercher</label>
-      <div class="relative">
+      <div class="relative hidden md:block">
         <div
           class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
         >
@@ -42,42 +42,53 @@
     </div>
     <div class="flex" v-for="(book, index) in books" :key="index">
       <div class="w-full">
-        <div class="bg-gray-800 h-52 rounded-lg mt-4">
+        <div class="bg-gray-800 max-h-52 overflow-y-auto rounded-lg mt-4">
           <div class="h-6"></div>
-          <div >
+          <div>
             <div class="flex">
-                <router-link class=""  :to="`/romandeupdate/${book.id}`">
-              <div class="flex">
-                <img
-                  class="w-32 h-40 transform transition duration-300 hover:scale-105 relative ml-9"
-                  :src="book.banner_desktop"
-                  alt=""
-                />
-                <div class="">
-                  <p class="text-white text-lg font-bold ml-4 text-left">
-                    {{ book.name }}
-                  </p>
-                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                    {{book.chapters && book.chapters.length !== 0 ? book.chapters.length : '0 '}} chapitre
-                  </p>
-                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                    {{ book.status }} 
-                  </p>
-                  <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
-                    {{ book.status_publish }}
-                  </p>
-                  <p
-                    class="text-white mt-2 text-lg font-sans ml-4 text-left whitespace-nowrap"
-                  >
-                    Assurez-vous d'avoir rempli toutes les conditions listées
-                    dans la page de histoire
-                  </p>
+              
+                <div class="flex">
+                  <router-link class="" :to="`/romandeupdate/${book.id}`">
+                  <img
+                    class="w-32 h-40 transform transition duration-300 hover:scale-105 relative ml-9"
+                    :src="book.banner_desktop"
+                    alt=""
+                  />
+                   </router-link>
+                  <div class="">
+                    <router-link class="" :to="`/romandeupdate/${book.id}`">
+                    <p class="text-white text-lg font-bold ml-4 text-left">
+                      {{ book.name }}
+                    </p>
+                    </router-link>
+                     <router-link class="" :to="`/listechapitre/${book.id}`">
+                    <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                      {{
+                        book.chapters && book.chapters.length !== 0
+                          ? book.chapters.length
+                          : "0 "
+                      }}
+                      chapitre
+                    </p>
+                    </router-link>
+                    <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                      {{ book.status }}
+                    </p>
+                    <p class="text-white mt-2 text-lg font-bold ml-4 text-left">
+                      {{ book.status_publish }}
+                    </p>
+                    <p
+                      class="text-white mt-2 text-lg font-sans ml-4 text-left whitespace-nowrap lg:hidden"
+                    >
+                      Assurez-vous d'avoir rempli toutes les conditions listées
+                      dans la page de histoire
+                    </p>
+                  </div>
                 </div>
-              </div>
-                </router-link>
+              
               <div class="flex ml-auto text-white">
                 <div>
-                  <router-link class=""  :to="`/addchapitre/${book.id}`">
+                  <router-link class="" :to="`/addchapitre/${book.id}`">
                     <button
                       class="inline-flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 whitespace-nowrap mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     >
@@ -85,11 +96,31 @@
                     </button>
                   </router-link>
                 </div>
-                <router-link class="mr-4" to="/dash">
+                <router-link class="mr-4"  :to="`/dash/${book.id}`">
                   <p class="ml-2 rounded-lg bg-green-600 px-2 py-2">
                     Statistique
                   </p>
                 </router-link>
+                <button
+                  class="text-red-500 font-medium mb-32"
+                  @click="deleteBookModal(book.id)"
+                >
+                  <span class="flex p-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="w-6 h-6 pr-2"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    Supprimer
+                  </span>
+                </button>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -105,6 +136,7 @@
                   />
                 </svg>
                 <p class="mt-2 ml-2 mr-4">Partager</p>
+                
               </div>
             </div>
           </div>
@@ -116,10 +148,10 @@
     width="w-full md:w-2/3 lg:w-1/2"
     :is-open="showDeleteRepasModal"
     @cancel="showDeleteRepasModal = !showDeleteRepasModal"
-    @delete="deleteRepas()"
+    @delete="bookDelete()"
   >
     <template #header>Supprimer</template>
-    <template #body> Vous voulez suppprimer ce repas </template>
+    <template #body> Vous voulez suppprimer ce Livre </template>
   </DeleteModalFooter>
   <TheModal
     width="w-full md:w-2/3 lg:w-1/3"
@@ -258,44 +290,65 @@ export default {
       showModalRepasUpdate: false,
       books: [],
       user: "",
-      filter: '',
+      filter: "",
+      deleteBookID:"",
     };
   },
   computed: {
-  filteredBooks() {
-    const searchTerm = this.filter.toLowerCase();
+    filteredBooks() {
+      const searchTerm = this.filter.toLowerCase();
 
-    // Vérifiez si filter est non vide avant de filtrer les livres
-    if (searchTerm.trim() !== '') {
-      return this.books.filter((book) => {
-        const authors = book.authors.toLowerCase();
-        return authors.includes(searchTerm);
-      });
-    } else {
-      // Si filter est vide, retournez un tableau vide
-      return [];
-    }
-  }
-},
+      // Vérifiez si filter est non vide avant de filtrer les livres
+      if (searchTerm.trim() !== "") {
+        return this.books.filter((book) => {
+          const authors = book.authors.toLowerCase();
+          return authors.includes(searchTerm);
+        });
+      } else {
+        // Si filter est vide, retournez un tableau vide
+        return [];
+      }
+    },
+  },
   created() {
-     this.profile();
+    this.profile();
     this.book();
   },
   methods: {
     deleteRepasModal() {
       this.showDeleteRepasModal = !this.showDeleteRepasModal;
     },
-    async profile() {
-    try {
-      const response = await axios.get("/api/profile");
-      if (response.data) {
-        this.filter = response.data.name;
-        console.log(this.filter);
+    deleteBookModal(id){
+      this.deleteBookID = id;
+       this.showDeleteRepasModal = !this.showDeleteRepasModal;
+    
+    },
+    async bookDelete() {
+      try {
+        const response = await axios.delete(`/api/books/${this.deleteBookID}`);
+        if (response.status == 204) {
+          this.books = response.data.data;
+          this.showDeleteRepasModal =false;
+          this.book();
+          this.$router.push("/histoiredash");
+          //statistique
+          
+        }
+      } catch (error) {
+        console.log(error.data);
       }
-    } catch (error) {
-      console.error(error.response.data);
-    }
-  },
+    },
+    async profile() {
+      try {
+        const response = await axios.get("/api/profile");
+        if (response.data) {
+          this.filter = response.data.data.name;
+          console.log(this.filter);
+        }
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    },
     async book() {
       try {
         const response = await axios.get("/api/books/user");

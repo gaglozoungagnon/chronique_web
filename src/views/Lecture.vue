@@ -1,56 +1,28 @@
 <template>
   <div class="bg-white">
-   <div class="relative">
-      <h1 class="text-4xl mx-24 font-bold text-left text-gray-700">
-        Leiste de lecture
+    <div v-if="books.length !== 0" class="relative">
+      <h1
+        class="lg:text-4xl text-xl mx-9 lg:mx-24 font-bold lg:text-left text-gray-700"
+      >
+        Liste de lecture
       </h1>
-      <div class="mx-24">
-        <div class="flex  p-4">
+      <div class="lg:mx-24 mx-6">
+        <div class="grid grid-cols-2 lg:grid-cols-6 p-4 gap-4">
           <!-- Votre boucle ici -->
-          <div
-            v-for="(book, index) in books"
-            :key="index"
-            class="flex-shrink-0 w-44 mx-4"
-          >
+          <div v-for="(book, index) in books" :key="index" class="w-full">
             <router-link
-            :to="`/romandetail/${book.book.id}`"
-              
+              :to="`/romandetail/${book.book.id}`"
               class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
             >
               <img
                 :src="book.book.banner_desktop"
                 :alt="book.book.banner_desktop"
-                class="object-cover  h-64 rounded"
+                class="object-cover h-64 rounded"
               />
               <div class="py-5">
-                <p
-                  class="mb-2  text-xs flex font-semibold text-gray-600 ml-16 uppercase"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.book.nbr_read }} k</span>
+                <p class="text-sm lg:font-bold leading-5">
+                  {{ capitalizeFirstLetter(book.book.name) }}
                 </p>
-                <p class="text-2xl font-bold leading-5">{{ book.book.name }}</p>
-                 <!-- <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
-                </p> -->
               </div>
             </router-link>
           </div>
@@ -58,9 +30,6 @@
         </div>
       </div>
     </div>
-    
- 
-    
   </div>
   <!-- Composant de modal -->
   <ModalComponent :isOpen="isModalOpen" @close="closeModal" />
@@ -76,45 +45,38 @@ export default {
   },
   data() {
     return {
-      images: [
-        { src: require("@/assets/write-neopload-banner.jpeg") },
-        { src: require("@/assets/background2.jpeg") },
-        { src: require("@/assets/background1.jpeg") },
-        { src: require("@/assets/background3.jpeg") },
-      ],
       currentImage: 0,
       isDropdownOpen: false,
-       books: [],
-       user_id:"",
-       terminers: [],
-       
+      books: [],
+      user_id: "",
+      terminers: [],
     };
   },
   created() {
     this.profile();
-    this.book();
-    
+    //this.book();
   },
   methods: {
-     async profile() {
+    capitalizeFirstLetter(text) {
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
+    async profile() {
       try {
         const response = await axios.get("/api/profile");
         if (response.data) {
-          this.user_id = response.data.id;
-          console.log(this.addform.user_id);
+          this.user_id = response.data.data.id;
+          this.book(this.user_id);
         }
       } catch (error) {
         console.log(error.data);
       }
     },
-    async book() {
+    async book(id) {
       try {
-        const response = await axios.get("/api/readings");
+        const response = await axios.get(`/api/readings?user_id=${id}`);
         if (response.data) {
           this.books = response.data.data;
-          this.terminers = this.books.filter(book => book.user_id === this.user_id);
-          console.log(this.books);
-          console.log(this.terminers);
         }
       } catch (error) {
         console.log(error.data);

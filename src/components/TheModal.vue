@@ -63,7 +63,7 @@ function closeModal() {
               <div class="p-8">
                 <DialogTitle
                   as="h3"
-                  class="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center ml-40 "
+                  class="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center lg:ml-40 "
                 >
                   <slot name="header"> This is the default title! </slot>
                   <button

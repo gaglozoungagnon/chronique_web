@@ -1,17 +1,20 @@
 <template>
   <div class="bg-white">
-    <div class="custom-background h-64">
+    <div class="custom-background h-80">
       <a href="#">
         <div class="relative">
-          <div class="h-9"></div>
-          <a href="#" class="flex">
+          <div class="h-24"></div>
+          <div v-if="this.auteur.profile_photo_path === null" class="lg:flex">
             <img
               class="mt-32 ml-44 w-32 h-32 rounded-full border-2 border-white"
-              src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+              src="../assets/download.png"
               alt=""
             />
-            <div class="flex">
-              <div class="flex mt-44 ml-6 text-white">
+              <div class="flex">
+              <div class="flex lg:mt-44 lg:ml-12 lg:text-white text-black">
+                <spam class="mt-1">{{ this.auteur.name }}</spam>
+              </div>
+              <div class="flex lg:mt-44 lg:ml-6 lg:text-white text-black ml-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -26,9 +29,9 @@
                     d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
                   />
                 </svg>
-                <span class="mt-1">10 Livres</span>
+                <span class="mt-1">{{ total }} Livres</span>
               </div>
-              <div class="flex mt-44 ml-12 text-white">
+              <div class="flex lg:mt-44 lg:ml-12 lg:text-white text-black">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -44,25 +47,81 @@
                   />
                 </svg>
 
-                <spam class="mt-1">184 Abonnée</spam>
+                <spam class="mt-1">{{ this.abonner.length }} Abonnée</spam>
               </div>
-              <div class="h-12 rounded-lg mt-44">
+              <div class="h-12 rounded-lg lg:mt-44">
                 <label class="inline-flex items-center">
                   <button
-                    class="bg-green-500 text-white flex px-6 py-2 ml-6 focus:outline-none poppins rounded-lg transform transition duration-300 hover:scale-105"
+                    class="bg-blue-600 text-white flex px-6 py-2 ml-6 focus:outline-none poppins rounded-lg transform transition duration-300 hover:scale-105"
                   >
                     Abonnée
                   </button>
                 </label>
               </div>
             </div>
-          </a>
+          </div>
+          <div v-else class="lg:flex">
+            <img
+              class="mt-32 ml-44 w-32 h-32 rounded-full border-2 border-white"
+              :src="auteur.profile_photo_path"
+              alt=""
+            />
+            <div class="flex">
+              <div class="flex lg:mt-44 lg:ml-12 lg:text-white text-black">
+                <spam class="mt-1">{{ this.auteur.name }}</spam>
+              </div>
+              <div class="flex lg:mt-44 lg:ml-6 lg:text-white text-black ml-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-9 h-9"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                  />
+                </svg>
+                <span class="mt-1">{{ total }} Livres</span>
+              </div>
+              <div class="flex lg:mt-44 lg:ml-12 lg:text-white text-black">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-9 h-9"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+                  />
+                </svg>
+
+                <spam class="mt-1">{{ this.abonner.length }} Abonnée</spam>
+              </div>
+              <div class="h-12 rounded-lg lg:mt-44">
+                <label class="inline-flex items-center">
+                  <button
+                    class="bg-blue-500 text-white flex px-6 py-2 ml-6 focus:outline-none poppins rounded-lg transform transition duration-300 hover:scale-105"
+                  >
+                    Abonnée
+                  </button>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
       </a>
     </div>
-    <div class="bg-white h-screen">
-      <div class="ml-44 mr-44 flex">
-        <div class="mt-4 w-1/3 mr-9 shadow-xl mt-12">
+    <div class="bg-white h-screen mt-24 lg:mt-0">
+      <div class="lg:ml-44 lg:mr-44 lg:flex">
+        <div class="mt-4 lg:w-1/3 mr-9 shadow-xl mt-12">
           <div class="ml-24 flex">
             <a href="#" class="mt-2"
               ><svg
@@ -82,7 +141,7 @@
                 width="24"
                 height="24"
                 fill="currentColor"
-                class="bi bi-whatsapp ml-2 "
+                class="bi bi-whatsapp ml-2"
                 viewBox="0 0 16 16"
               >
                 <path
@@ -133,74 +192,62 @@
                 ></path></svg
             ></a>
           </div>
-          <p class="text-gray-700 mt-2 text-left text-sm font-sans mx-4">
-            Une histoire de voyage, d'aventures et d'apparences.
-          </p>
+
           <p class="mt-4 text-gray-700 text-left text-sm font-sans mx-4">
-            Se retrouvant à devoir la vie à un dragon amnésique qu'il devait
-            chasser, Ewan Jesabell, chasseur de monstres, se voit contraint de
-            lui servir de guide. Mais à peine partis, le duo se retrouve mêlé au
-            Cercle, une société secrète, ainsi qu'au grand péril qui règne sur
-            l'empire humain.
+            {{ this.auteur.description }}
           </p>
         </div>
-        <div class="mt-4 w-2/3">
+        <div class="mt-4 lg:w-2/3">
           <div class="mt-4 bg-black h-22 rounded-lg">
-            <div class="flex text-white mt-6 w-full h-12">
+            <div class="flex text-white mt-6 lg:w-full h-12">
               <label class="inline-flex items-center w-1/2 mt-0">
-                <div class="w-full flex">
+                <div class="lg:w-full flex">
                   <span class="font-sans ml-2"
                     >Soutenir votre auteur pour ses histoires</span
                   >
                 </div>
               </label>
               <label class="inline-flex items-center w-1/2">
-                <button
+                <router-link to="/don"
                   class="border border-green-500 ml-auto mr-4 text-white flex px-12 py-2 ml-4 focus:outline-none poppins rounded-lg transform transition duration-300 hover:scale-105"
                 >
                   <spam class="ml-2">Soutenir</spam>
-                </button>
+                </router-link>
               </label>
             </div>
           </div>
           <div class="mt-2 shadow-xl">
-            <div class="flex">
-              <div class="flex mt-4 mr-6 ml-2">
-                <img class="w-24" src="../assets/image.webp" alt="" />
-
-                <div class="my-3 space-y-2">
-                  <div class="text-gray-800">
-                    <p class="text-gray-800 text-xl text-left ml-4 font-bold">
-                      Dra-Knight
+            <div class="flex flex-wrap -mx-4">
+              <div
+                v-for="(book, index) in books"
+                :key="index"
+                class=" w-1/2 px-4 mb-8"
+              >
+                <router-link
+                  :to="`/romandetail/${book.id}/${book.slug}`"
+                  class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
+                >
+                  <img
+                    :src="book.banner_desktop"
+                    :alt="book.banner_desktop"
+                    class="object-cover h-64 rounded"
+                  />
+                  <div class="py-5">
+                    <p class="text-sm font-bold leading-5">
+                      {{ capitalizeFirstLetter(book.name) }}
                     </p>
-                    <p class="text-sm text-left ml-4">Action</p>
-                    <p class="text-sm text-left ml-4">
-                      Les humains sont en voie d'extinction. Dans le désert de
-                      Nahari, Syriel mène une vie simple, soumis aux mesures de
-                      préservati
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="flex mt-4">
-                <img class="w-24" src="../assets/image.webp" alt="" />
-
-                <div class="my-3 space-y-2">
-                  <div class="text-gray-800">
-                    <p class="text-gray-800 text-xl text-left ml-4 font-bold">
-                      Dra-Knight
-                    </p>
-                    <p class="text-sm text-left ml-4">Action</p>
-                    <p class="text-sm text-left ml-4">
-                      Les humains sont en voie d'extinction. Dans le désert de
-                      Nahari, Syriel mène une vie simple, soumis aux mesures de
-                      préservati
+                    <p
+                      class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
+                    >
+                      {{ book.categories[0].category.name }}
+                      <span v-if="book.categories[1]">{{
+                        book.categories[1].category.name
+                      }}</span>
                     </p>
                   </div>
-                </div>
+                </router-link>
               </div>
             </div>
-            <div class="h-4"></div>
           </div>
         </div>
       </div>
@@ -213,6 +260,7 @@
 
 <script>
 import ModalComponent from "../components/ModalComponent .vue";
+import axios from "axios";
 
 export default {
   name: "App",
@@ -221,47 +269,60 @@ export default {
   },
   data() {
     return {
-      images: [
-        { src: require("@/assets/write-neopload-banner.jpeg") },
-        { src: require("@/assets/background2.jpeg") },
-        { src: require("@/assets/background1.jpeg") },
-        { src: require("@/assets/background3.jpeg") },
-      ],
       currentImage: 0,
       isDropdownOpen: false,
+      books: [],
+      auteur: [],
+      total: "",
+      profileID: "",
+      abonner: [],
     };
   },
-  methods: {
-    startSlider() {
-      setInterval(() => {
-        this.currentImage = (this.currentImage + 1) % this.images.length;
-      }, 5000); // Défilement toutes les 5 secondes
-    },
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    },
+  created() {
+    this.book();
   },
-  mounted() {
-    this.startSlider();
-    this.toggleDropdown();
-
-    document.addEventListener("click", (event) => {
-      if (!this.$el.contains(event.target)) {
-        this.isDropdownOpen = false;
+  methods: {
+    capitalizeFirstLetter(text) {
+      if (!text) return "";
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
+    async book() {
+      try {
+        const response = await axios.get(`/api/booksauteur?user_id=${this.$route.params.id}`);
+        if (response.data) {
+          this.books = response.data.data;
+          this.auteur = this.books[0].user;
+          this.total = this.books.length;
+          this.profileID = this.auteur.id;
+          this.subgt(this.profileID);
+        }
+      } catch (error) {
+        console.log(error.data);
       }
-    });
+    },
+    async subgt(userId) {
+      try {
+        const response = await axios.get(`/api/subscribers?autor_id=${userId}`);
+
+        if (response.data) {
+          this.abonner = response.data.data;
+        }
+      } catch (error) {
+        console.log(error.data);
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
 .custom-background {
-  background-image: url("~@/assets/OF18NR0.jpg");
+  background-image: url("~@/assets/full-shot-woman-reading-tablet.jpg");
   /* Remplacez 'votre-image.jpg' par le nom de votre image */
   background-size: cover;
   /* Ajustez la taille de l'image */
   background-repeat: no-repeat;
-  background-position: center center;
+
   /* Centrez l'image */
   /* Ajoutez d'autres styles Tailwind CSS ou CSS personnalisés au besoin */
 }

@@ -3,7 +3,7 @@
     <h1 class="font-bold text-4xl text-white">Profils</h1>
   </div>
   <div
-    class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white mt-0 p-4"
+    class="lg:relative lg:overflow-x-auto shadow-md sm:rounded-lg bg-white mt-0 p-4"
   >
     <div class="justify-between">
       <div v-show="showAlert">
@@ -12,12 +12,12 @@
 
       <div
         v-if="isProfil === false"
-        class="bg-white mx-32 shadow overflow-hidden sm:rounded-lg"
+        class="bg-white lg:mx-32 shadow overflow-hidden sm:rounded-lg"
       >
-        <div class="px-4 py-5 sm:px-6 flex ml-44">
+        <div class="px-4 py-5 sm:px-6 lg:flex lg:ml-44">
           <h3 class="text-lg mt-12 font-bold text-gray-900">Photo de profil</h3>
-          <div class="ml-auto mr-80">
-            <div v-if="donne.profile_photo_path === null" class="sm:col-span-3">
+          <div class="lg:ml-auto lg:mr-80 ml-24">
+            <div v-if="donne.profile_photo_path === null" class="col-span-3">
               <a href="/authors/yvan">
                 <img
                   class="w-32 h-32 rounded-full border-2 border-white"
@@ -27,13 +27,13 @@
               </a>
             </div>
             <div v-else class="sm:col-span-3">
-              
-                <img
-                  class="w-32 h-32 rounded-full border-2 border-white"
-                  :src="donne.profile_photo_path"
-                  alt=""
-                />
-              
+              <img
+                class="w-32 h-32 rounded-full border-2 border-white cursor-pointer"
+                :src="donne.profile_photo_path"
+                alt=""
+                @click="toggleImageSize"
+                :class="{ 'w-64 h-64': isImageExpanded }"
+              />
             </div>
           </div>
         </div>
@@ -55,11 +55,18 @@
                 {{ donne.email }}
               </dd>
             </div>
-            
             <div
               class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
             >
-              <dt class="text-sm font-bold text-gray-500">Description</dt>
+              <dt class="text-sm font-bold text-gray-500">Téléphone</dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {{ donne.banner }}
+              </dd>
+            </div>
+            <div
+              class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+            >
+              <dt class="text-sm font-bold text-gray-500">Biographie</dt>
               <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                 {{ donne.description }}
               </dd>
@@ -73,19 +80,16 @@
               </dd>
             </div>
             <div
-              class=" px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ml-96"
+              class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 lg:ml-96"
             >
-              
               <dd
-                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 ml-20 flex"
+                class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 lg:ml-20 ml-9 flex"
               >
-               
                 <button
-                  
-                 @click="showModalProfils = true"
+                  @click="showModalProfils = true"
                   class="bg-green-600 text-white px-8 ml-4 py-2 focus:outline-none rounded-lg mt-2 transform transition duration-300"
                 >
-                 Modifier mot de passe
+                  Modifier mot de passe
                 </button>
               </dd>
             </div>
@@ -99,20 +103,37 @@
           </dl>
         </div>
       </div>
-      <div v-else class="bg-white mx-32 shadow overflow-hidden sm:rounded-lg">
-        <form action="#" method="POST" @submit.prevent="addUsers()">
+      <div
+        v-else
+        class="bg-white lg:mx-32 shadow overflow-hidden sm:rounded-lg"
+      >
+        <form action="#" method="POST" @submit.prevent="submitForm()">
           <div>
             <div class="px-4 py-5 bg-white p-6">
               <div class="flex">
-                <div class="w-2/3 mr-9">
+                <div class="lg:w-2/3 lg:mr-9 w-80">
                   <BaseLabel value="Nom" class="text-left font-bold" />
-                  <BaseInput id="nom" v-model="donne.name" class="mt-1" />
+                  <BaseInput id="nom" v-model="addform.name" class="mt-1" />
 
                   <div class="col-span-8 sm:col-span-8">
                     <BaseLabel value="Email" class="text-left mt-2 font-bold" />
-                    <BaseInput id="prenom" v-model="donne.email" class="mt-1" />
+                    <BaseInput
+                      id="prenom"
+                      v-model="addform.email"
+                      class="mt-1"
+                    />
                   </div>
-        
+                  <div class="col-span-8 sm:col-span-8">
+                    <BaseLabel
+                      value="Telephone"
+                      class="text-left mt-2 font-bold"
+                    />
+                    <BaseInput
+                      id="prenom"
+                      v-model="addform.banner"
+                      class="mt-1"
+                    />
+                  </div>
                   <div class="col-span-8 sm:col-span-8">
                     <BaseLabel
                       value="Description"
@@ -120,13 +141,13 @@
                     />
                     <div class="relative mt-1">
                       <textarea
-                        class="block lg:w-full p-2 h-48 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                        class="block lg:w-full p-2 h-48 w-80 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                         autocomplete="current-password"
-                        v-model="donne.description"
-                        required
+                        v-model="addform.description"
                       />
                     </div>
                   </div>
+
                   <div class="col-span-8 sm:col-span-8">
                     <BaseLabel
                       value="Photo de profil"
@@ -170,20 +191,33 @@
             <div class="px-4 py-5 bg-white p-6">
               <div class="grid grid-cols-8 gap-6">
                 <div class="col-span-8 sm:col-span-8">
-                  <BaseLabel value="Nouveau mot de passe" />
+                  <BaseLabel value="Ancien mot de passe" />
                   <div class="relative mt-1">
-                    <BaseInput type="password" v-model="form.password" class="mt-2" />
+                    <BaseInput
+                      type="password"
+                      v-model="form.old_password"
+                      class="mt-2 text-black"
+                    />
                   </div>
                 </div>
                 <div class="col-span-8 sm:col-span-8">
-                  <BaseLabel  value="Confirmer mot de passe" />
+                  <BaseLabel value="Nouveau mot de passe" />
                   <BaseInput
                     type="password"
                     id="language"
-                    
-                    class="mt-2"
+                    v-model="form.new_password"
+                    class="mt-2 text-black"
                   />
-                </div>  
+                </div>
+                <div class="col-span-8 sm:col-span-8">
+                  <BaseLabel value="Confirmé nouveau mot de passe" />
+                  <BaseInput
+                    type="password"
+                    id="language"
+                    v-model="form.new_confirm_password"
+                    class="mt-2 text-black"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -221,11 +255,17 @@ export default {
   },
   data() {
     return {
-      form:{
-        password:"",
+      form: {
+        old_password: "",
+        new_password: "",
+        new_confirm_password: "",
       },
       addform: {
         profile_photo_path: "",
+        name: "",
+        email: "",
+        description: "",
+        banner: "",
       },
       showAlert: false,
       alert: {
@@ -236,39 +276,35 @@ export default {
       showDeleteLivreurModal: false,
       showModalLivreur: false,
       showModalLivreurUpdate: false,
-      showModalProfils:false,
+      showModalProfils: false,
       user: "",
       livreurs: [],
       filter: "",
       donne: [],
       isProfil: false,
+      isImageExpanded: false,
     };
   },
   created() {
     this.profile();
   },
-  computed: {
-    filteredLivreur() {
-      const searchTerm = this.filter.toLowerCase();
-      const filtered_data = this.livreurs.filter((livreurs) => {
-        const name = livreurs.user.id.toLowerCase();
-        return name.includes(searchTerm);
-      });
-
-      return filtered_data;
-    },
-  },
+  computed: {},
   methods: {
     profiAction() {
       this.isProfil = !this.isProfil;
     },
-
+    toggleImageSize() {
+      this.isImageExpanded = !this.isImageExpanded;
+    },
     async profile() {
       try {
         const response = await axios.get("/api/profile");
         if (response.data) {
-          this.donne = response.data;
-          this.filter = response.data.id;
+          this.donne = response.data.data;
+          this.addform.name = response.data.data.name;
+          this.addform.email = response.data.data.email;
+          this.addform.banner = response.data.data.banner;
+          this.filter = response.data.data.id;
           console.log(this.donne);
           //console.log(this.filter);
         }
@@ -276,10 +312,10 @@ export default {
         console.log(error.data);
       }
     },
-     async passwordUpdate() {
+    async passwordUpdate() {
       try {
         const response = await axios.post(
-          `/api/users/${this.filter}`,
+          `/api/user/password-update`,
           this.form
         );
         if (response.status == 200) {
@@ -291,7 +327,7 @@ export default {
             text: "Votre mot de passe à été modifié avec succés",
             timeout: 5000,
           }).show();
-          this.$router.push("/");
+          this.$router.push("/home");
         } else {
           this.showAlert = true;
           this.alert.message =
@@ -315,18 +351,20 @@ export default {
       try {
         const response = await axios.post(
           `/api/users/${this.filter}`,
-          this.donne
+          this.addform
         );
         if (response.status == 200) {
           this.addform = {};
           this.isLoading = false;
+          this.isProfil = false;
           new Noty({
             type: "success",
             layout: "topRight",
             text: "Votre profils à été modifié avec succés",
             timeout: 5000,
           }).show();
-          this.$router.push("/histoiredash");
+          this.profile();
+          window.scrollTo(0, 0);
         } else {
           this.showAlert = true;
           this.alert.message =
@@ -360,7 +398,7 @@ export default {
         })
         .then((response) => {
           if (response.status == 201) {
-            this.donne.profile_photo_path = response.data.data.media_url;
+            this.addform.profile_photo_path = response.data.data.media_url;
             console.log(this.addform.profile_photo_path);
             this.users();
           }
@@ -369,10 +407,18 @@ export default {
           console.error(error);
         });
     },
+
     onFileChange(e) {
       const file = e.target.files[0];
       this.image = file;
       this.addRepas();
+    },
+    submitForm() {
+      if (this.image) {
+        this.addUsers();
+      } else {
+        this.users();
+      }
     },
   },
 };

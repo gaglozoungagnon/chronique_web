@@ -5,7 +5,7 @@
         Politique de confidentialité
       </h1>
     </div>
-    <div class="text-center ml-44 mr-44 bg-gray-100 p-4">
+    <div class="text-center lg:ml-44 lg:mr-44 bg-gray-100 p-4">
       <h1 class="font-bold text-lg text-gray-700 mt-4">
         Veuillez lire attentivement cette politique de confidentialité (ci-après
         la « Politique de Confidentialité ») car celle-ci décrit la façon dont

@@ -1,63 +1,50 @@
 <template>
   <div class="bg-white">
-    <div  class="mx-24 mt-9">
-      <h1 class="text-4xl font-bold text-left text-gray-700">
-       {{this.book[0].category.name}}
+    <div v-if="book.length !== 0" class="lg:mx-24 mt-9 mx-4">
+      <h1 class="lg:text-4xl text-xl font-bold text-left text-gray-700">
+        {{ this.gensName }}
       </h1>
-      <div 
-        class="grid gap-5 lg:grid-cols-6 sm:max-w-sm sm:mx-auto lg:max-w-full mt-4"
+
+      <div
+        class="grid grid-cols-2 lg:grid-cols-6 p-4 gap-4"
       >
         <div
-            v-for="(book, index) in book"
-            :key="index"
-            class="flex-shrink-0 w-44 mx-4"
+          v-for="(book, index) in book"
+          :key="index"
+          class=" w-full"
+        >
+          <router-link
+            :to="`/romandetail/${book.id}/${book.slug}`"
+            class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
           >
-            <router-link
-            :to="`/romandetail/${book.id}`"
+            <img
+              :src="book.banner_desktop"
+              :alt="book.banner_desktop"
+              class="object-cover h-64 rounded"
+            />
+            <div class="py-5">
               
-              class="block overflow-hidden transition-shadow duration-300 text-gray-700 rounded"
-            >
-              <img
-                :src="book.banner_desktop"
-                :alt="book.banner_desktop"
-                class="object-cover  h-64 rounded"
-              />
-              <div class="py-5">
-                <p
-                  class="mb-2  text-xs flex font-semibold text-gray-600 ml-16 uppercase"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span class="mt-1 ml-4">{{ book.nbr_read }} k</span>
-                </p>
-                <p class="text-2xl font-bold leading-5">{{ book.name }}</p>
-                <p class="mt-2 text-xs font-semibold text-gray-600 uppercase">
-                  {{ book.category.name }}
-                </p>
-              </div>
-            </router-link>
-          </div>
-        
+              <p class="lg:text-2xl text-sm font-bold leading-5">
+                {{ capitalizeFirstLetter(book.name) }}
+              </p>
+              <p
+                class="lg:mt-2 text-xs lg:font-semibold text-gray-600 uppercase"
+              >
+                {{ book.categories[0].category.name }}
+                <span v-if="book.categories[1]">
+                  {{ book.categories[1].category.name }}
+                </span>
+              </p>
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
-    
+     <div v-else-if="book.length === 0 && isLoading">
+      <div class="h-screen flex flex-col items-center justify-center">
+        <LoadingSpiner />
+      </div>
+    </div>
   </div>
   <!-- Composant de modal -->
   <ModalComponent :isOpen="isModalOpen" @close="closeModal" />
@@ -65,49 +52,65 @@
 
 <script>
 import ModalComponent from "../components/ModalComponent .vue";
+import LoadingSpiner from "../components/LoadingSpiner.vue";
 import axios from "axios";
 export default {
   name: "App",
   components: {
     ModalComponent,
+    LoadingSpiner,
   },
+
   data() {
     return {
       book: [],
-      gens:"",
+      gens: "",
+      gensName:"",
+    loading: false,
+      isLoading: false,
       isDropdownOpen: false,
     };
   },
+ 
   created() {
-    this.$router.beforeEach((to, from, next) => {
-      if (to.params.id !== from.params.id) {
-        // Le paramètre de route a changé, récupérons les livres
-        this.fetchBooks(to.params.id);
-      }
-      next();
-    });
-
-    // Récupérez les livres lorsque le composant est créé pour la première fois
-    this.fetchBooks(this.$route.params.id);
-  
+    this.fetchBooks();
+  },
+watch: {
+    "$route.params.id": {
+      immediate: true,
+      handler(newVal, oldVal) {
+        // Recharger les données ou actualiser la page ici
+        if (newVal !== oldVal) {
+          this.fetchBooks();
+        
+        }
+      },
+    },
   },
   methods: {
+    capitalizeFirstLetter(text) {
+      if (!text) return '';
+      return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
     async fetchBooks() {
       try {
-        const response = await axios.get(`api/books?filter[category_id]=${this.$route.params.id}`);
+        this.isLoading = true;
+        const response = await axios.get(
+          `api/books?filter[category_id]=${this.$route.params.id}`
+        );
         if (response.data) {
           this.book = response.data.data;
-          this.gens = this.book[0].category.name;
-          
-          
+          this.gensName = this.book[0].categories[0].category.name;
+          if ( this.book.length > 0) {
+        
+        this.isLoading = false;
+      }
         }
       } catch (error) {
         console.log(error.data);
       }
     },
-    
   },
- 
 };
 </script>
 

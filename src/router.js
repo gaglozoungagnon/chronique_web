@@ -16,18 +16,24 @@ import Auteur from './views/Auteur.vue';
 import politique from './views/politique.vue';
 import auteurDetail from './views/auteurDetail.vue';
 import Concours from './views/Concours.vue';
+import updateChapitre from './views/updateChapitre.vue';
 import histoireJeux from './views/histoireJeux.vue';
 import Conditions from './views/Conditions.vue';
+import Listchapitre from './views/Listchapitre.vue';
 import Faq from './views/Faq.vue';
 import DashBord from './views/DashBord.vue';
 import Statistique from './views/Statistique.vue';
+
+
 import HistoireDash from './views/HistoireDash.vue';
 import AjouterRoman from './views/AjouterRoman.vue';
+import ResetPassword from './views/ResetPassword.vue';
 import UpdateRoman from './views/UpdateRoman.vue';
 import Chapitre from './views/Chapitre.vue';
 import Contacte from './views/Contacte.vue';
 import Parametre from './views/Parametre.vue';
 import RomanDetail from './views/RomanDetail.vue';
+import Don from './views/Don.vue';
 import LoginForm from './views/LoginForm.vue';
 import Profils from './views/Profils.vue';
 import RegisterFrom from './views/RegisterFrom.vue';
@@ -38,20 +44,20 @@ import DashLayout from './layouts/DashLayout.vue';
 
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/home', component: Home },
   { path: '/chapitre', component: Chapitre },
   { path: '/ecrire', component: Ecrire },
   { path: '/lecture', component: Lecture },
   { path: '/notification', component: Notification },
   { path: '/enoncer', component: Enoncer },
   { path: '/propos', component: Propos },
-  { path: '/lire/:id/:index', component: Lire },
+  { path: '/lire/:id/:name/:index', component: Lire },
   { path: '/auteurs', component: Auteur },
   { path: '/concours', component: Concours },
-  { path: '/auteurdetail', component: auteurDetail },
+  { path: '/auteurdetail/:id', component: auteurDetail },
   { path: '/parametre', component: Parametre },
   { path: '/bibliotheque/:id', component: bibliotheque },
-  { path: '/romandetail/:id', component: RomanDetail },
+  { path: '/romandetail/:id/:name', component: RomanDetail },
   
   { path: '/contacte', component: Contacte },
   { path: '/condiction', component: Conditions },
@@ -59,13 +65,30 @@ const routes = [
   { path: '/histoirejeux', component: histoireJeux },
   { path: '/politique', component: politique },
   {
+    path: "/don",
+    component: Don,
+  },
+  {
     path: "/profils",
     component: Profils
   },
   {
-    path: '/auth/login',
+    path: '/',
     component: LoginForm,
     meta: { layout: LoginLayout, public: false },
+  },
+  { path: '/auth/password/reset', component: ResetPassword, 
+  meta: { layout: LoginLayout, public: false },
+},
+  {
+    path: "/listechapitre/:id",
+    component: Listchapitre,
+    meta: { layout: DashLayout, public: false },
+  },
+  {
+    path: "/UpdateChapitre/:id",
+    component: updateChapitre,
+    meta: { layout: DashLayout, public: false },
   },
   {
     path: '/auth/register',
@@ -73,7 +96,7 @@ const routes = [
     meta: { layout: RegisterLayout, public: false }
   },
   {
-    path: "/dash",
+    path: "/dash/:id",
     component: DashBord,
     meta: { layout: DashLayout, public: false },
   },

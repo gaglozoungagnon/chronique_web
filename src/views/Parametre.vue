@@ -5,7 +5,7 @@
     </div>
     <h3 class="font-bold text-gray-700 text-2xl mt-6">Genres préférés</h3>
     <div
-      class="mt-4 mr-36 ml-36 bg-blue-400 flex items-center justify-center h-full rounded-lg"
+      class="mt-4 lg:mr-36 lg:ml-36 bg-blue-400 lg:flex items-center justify-center h-full rounded-lg"
     >
       <form action="#" method="POST" @submit.prevent="sttings()">
         <div class="mt-6">
@@ -23,9 +23,9 @@
               v-if="connectCategory.length === 0"
               class="genres-select-container items-between"
             >
-              <div class="flex text-white mt-6 w-full">
+              <div class="lg:flex text-white mt-6 w-full">
                 <!-- Fantaisie -->
-                <label class="inline-flex items-center ml-24 w-1/2">
+                <label class="inline-flex items-center lg:ml-24 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -44,7 +44,7 @@
                   />
                 </label>
                 <!-- Romance -->
-                <label class="inline-flex items-center ml-60 w-1/2">
+                <label class="inline-flex items-center lg:ml-60 ml-1 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -65,8 +65,8 @@
               </div>
 
               <!-- Action -->
-              <div class="flex text-white mt-6 w-full">
-                <label class="inline-flex items-center ml-24 w-1/2">
+              <div class="lg:flex text-white mt-6 w-full">
+                <label class="inline-flex items-center lg:ml-24 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -85,7 +85,7 @@
                   />
                 </label>
                 <!-- Adventure -->
-                <label class="inline-flex items-center ml-60 w-1/2">
+                <label class="inline-flex items-center lg:ml-60 ml-1 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -108,8 +108,8 @@
               <!-- Continuez à ajouter des balises similaires pour les autres genres -->
 
               <!-- Exemple pour Historical -->
-              <div class="flex text-white mt-6 w-full">
-                <label class="inline-flex items-center ml-24 w-1/2">
+              <div class="lg:flex text-white mt-6 w-full">
+                <label class="inline-flex items-center lg:ml-24 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -128,7 +128,7 @@
                   />
                 </label>
                 <!-- Horror -->
-                <label class="inline-flex items-center ml-60 w-1/2">
+                <label class="inline-flex items-center lg:ml-60 ml-1 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -148,8 +148,8 @@
                 </label>
               </div>
 
-              <div class="flex text-white mt-6 w-full">
-                <label class="inline-flex items-center ml-24 w-1/2">
+              <div class="lg:flex text-white mt-6 w-full">
+                <label class="inline-flex items-center lg:ml-24 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -168,7 +168,7 @@
                   />
                 </label>
                 <!-- Horror -->
-                <label class="inline-flex items-center ml-60 w-1/2">
+                <label class="inline-flex items-center lg:ml-60 ml-1 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -187,8 +187,8 @@
                   />
                 </label>
               </div>
-              <div class="flex text-white mt-6 w-full">
-                <label class="inline-flex items-center ml-24 w-1/2">
+              <div class="lg:flex text-white mt-6 w-full">
+                <label class="inline-flex items-center lg:ml-24 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -207,7 +207,7 @@
                   />
                 </label>
                 <!-- Horror -->
-                <label class="inline-flex items-center ml-60 w-1/2">
+                <label class="inline-flex items-center lg:ml-60 ml-1 w-1/2">
                   <div class="w-1/4 flex">
                     <img
                       height="24"
@@ -233,40 +233,7 @@
           </div>
               <!-- Continuez à ajouter des balises similaires pour les autres genres -->
             </div>
-            <div v-else class="genres-select-container items-between">
-              <div
-                class="flex text-white mt-6 w-full"
-                v-for="genre in connectCategory"
-                :key="genre.id"
-              >
-                <label
-                  :class="
-                    'inline-flex items-center ml-' + genre.margin + ' w-1/2'
-                  "
-                >
-                  <div class="w-1/4 flex">
-                    <img
-                      src="../assets/fantasy.svg"
-                      class="mr-2"
-                      height="24"
-                      width="24"
-                    />
-                    <span class="font-sans">{{ genre.category.name }}</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    v-model="addform.category_ids"
-                    :value="genre.id"
-                    class="h-4 w-1/4 ml-24"
-                  />
-                </label>
-              </div>
-              <div class="mt-4">
-            <button type="button"  @click="showModalProfils = true" class="text-white bg-green-700 px-8 py-2 text-xl mb-4">
-              Modifier
-            </button>
-          </div>
-            </div>
+            
           </div>
           
         </div>
@@ -274,7 +241,7 @@
     </div>
     <h3 class="font-bold text-gray-700 text-2xl mt-6">Liste noire de tags</h3>
     <div
-      class="mt-4 mr-36 ml-36 bg-blue-400 h-52 flex items-center justify-center rounded-lg"
+      class="mt-4 lg:mr-36 lg:ml-36 mx-4 lg:mx-0 bg-blue-400 lg:h-52 flex items-center justify-center rounded-lg"
     >
       <div class="mt-6">
         <div class="">
@@ -286,7 +253,7 @@
           </div>
           <div class="genres-select-container mt-4 flex items-between">
             <input
-              class="w-full h-10 px-4 py-2 mr-24 ml-24 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-indigo-500"
+              class="w-full h-10 px-4 py-2 lg:mr-24 lg:ml-24 mx-4 lg:mx-0 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-indigo-500"
               autocomplete="off"
               role="combobox"
               aria-autocomplete="list"
@@ -306,12 +273,12 @@
     </div>
 
     <h3 class="font-bold text-gray-700 text-2xl mt-6">Contenu adulte</h3>
-    <div class="mt-4 mr-36 ml-36 bg-blue-400 h-24 rounded-lg">
+    <div class="mt-4 lg:mr-36 lg:ml-36 mx-4 lg:mx-0 bg-blue-400 h-24 rounded-lg">
       <div class="mt-6">
         <div class="">
           <div class="genres-select-container items-between">
             <div class="flex text-white mt-6 w-full">
-              <label class="inline-flex items-center ml-24 w-1/2 mt-6">
+              <label class="inline-flex items-center lg:ml-24 w-1/2 mt-6 ml-6">
                 <div class="w-full flex">
                   <img
                     height="24"
@@ -323,7 +290,7 @@
                   <span class="font-sans">Voir du contenu adulte</span>
                 </div>
               </label>
-              <label class="inline-flex items-center mt-6 ml-60 w-1/2">
+              <label class="inline-flex items-center mt-6 lg:ml-60 ml-12 w-1/2">
                 <label
                   class="flex items-center relative w-max cursor-pointer select-none"
                 >
@@ -663,7 +630,7 @@ export default {
             text: "Vos genres on à été bien enregistrer avec succés",
             timeout: 5000,
           }).show();
-          this.$router.push("/");
+          this.$router.push("/home");
         } else {
           this.showAlert = true;
           this.alert.message =

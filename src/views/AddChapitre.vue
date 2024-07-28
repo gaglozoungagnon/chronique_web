@@ -2,8 +2,8 @@
   <div
     class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4 mt-9"
   >
-    <div class="ml-12 mr-12">
-      <form action="#" method="POST" @submit.prevent="chapitre()">
+    <div class="lg:ml-12 lg:mr-12">
+      <form action="#" method="POST" @submit.prevent="submitForm">
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold text-left text-gray-900">
@@ -11,23 +11,24 @@
             </h2>
 
             <div class="mt-10">
-              <div class="flex w-full">
-                <div class="w-2/4 mr-4">
+              <div class="lg:flex w-full">
+                <div class="lg:w-2/4 lg:mr-4">
                   <label
                     for="title"
                     class="block text-sm font-bold text-left text-gray-900"
                     >Titre</label
                   >
                   <div class="mt-2">
-                   <input
-                    type="text" 
-                     v-model="addform.name"
-                    class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
-                  />
+                    <input
+                      type="text"
+                      v-model="addform.name"
+                      
+                      class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
+                    />
                   </div>
                 </div>
 
-                <div class="w-2/4 mr-4">
+                <div class="lg:w-2/4 lg:mr-4">
                   <label
                     for="catchphrase"
                     class="block text-sm font-bold text-left text-gray-900"
@@ -37,27 +38,21 @@
                     <input
                       type="text"
                       v-model="addform.number"
+                      required
                       class="block w-full p-2 border border-input-disable rounded-md focus:outline-none focus:ring-primary-normal focus:ring focus:ring-opacity-50 shadow-sm focus:border"
                     />
                   </div>
                 </div>
-
-               
               </div>
             </div>
             <h2 class="text-base font-semibold text-left text-gray-900 mt-6">
               Contenu du chapitre
             </h2>
-            <label
-              for="title"
-              class="block text-sm font-sans text-left mt-2 text-gray-900"
-              >Min 1 500 caractères, Max 35 000 caractères</label
-            >
+
             <div class="flex col-span-8 sm:col-span-8">
               <div class="hidden sm:flex sm:items-start">
                 <div class="flex items-center mt-2">
                   <input
-                    
                     type="checkbox"
                     class="rounded border-gray-300 mt-1 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                   />
@@ -76,7 +71,6 @@
               <div class="hidden sm:flex sm:items-start">
                 <div class="flex items-center mt-2">
                   <input
-                    
                     type="checkbox"
                     class="rounded border-gray-300 mt-1 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                   />
@@ -92,35 +86,47 @@
               </div>
             </div>
             <div class="mt-6">
-            <Editor 
-              v-model="addform.contain"
-              api-key="hl6cz2tdbonmijplqzs0qav3e0xdmryf2o46y1se1su7434k"
-              :init="{
-                plugins: '',
-              }"
-            />
+              <Editor
+                v-model="addform.contain"
+                
+                api-key="w8rrfindih3k10qkv6rpaduqvi7y4plzgfk56jge394lwlch"
+                :init="{
+                  plugins: '',
+                }"
+              />
+              <span v-if="!addform.contain" style="color: red;">Ce champ est obligatoire.</span>
             </div>
-            <div class="flex">
+            <div v-if="previewData" class="mt-6">
+              <h2 class="text-lg font-semibold text-gray-900">
+                Aperçu du chapitre
+              </h2>
+              <p><strong>Titre:</strong> {{ previewData.name }}</p>
+              <p><strong>Numéro:</strong> {{ previewData.number }}</p>
+              <p v-html=" previewData.contain"></p>
+              <!-- Affichez d'autres données du formulaire ici -->
+            </div>
+            <div class="lg:flex">
               <button
-                class="bg-blue-500 text-white mr-6 px-8 py-2 focus:outline-none poppins rounded-lg mt-4 transform transition duration-300 hover:scale-105"
-                 @click="showModalRepas = true"
+                class="bg-blue-500 text-white hidden md:block mr-6 px-8 py-2 focus:outline-none poppins rounded-lg mt-4 transform transition duration-300 hover:scale-105"
+                @click="showModalRepas = true"
               >
                 Programmer l'envoi
               </button>
               <button
-                class="bg-blue-500 text-white mr-6 px-8 py-2 focus:outline-none poppins rounded-lg mt-4 transform transition duration-300 hover:scale-105"
+              type="button"
+                class="bg-blue-500 text-white  mr-6 px-8 py-2 focus:outline-none poppins rounded-lg mt-4 transform transition duration-300 hover:scale-105"
+                @click="showPreview"
               >
-                Prévisualiser
+                Aperçu
               </button>
               <button
+              type="submit"
                 class="bg-blue-500 text-white mr-6 px-8 py-2 focus:outline-none poppins rounded-lg mt-4 transform transition duration-300 hover:scale-105"
               >
-              <span v-if="isLoading">
-                <spiner />
-              </span>
-              <span v-else>
-                 Publier maintenant</span>
-               
+                <span v-if="isLoading">
+                  <spiner />
+                </span>
+                <span v-else> Publier maintenant</span>
               </button>
             </div>
           </div>
@@ -128,7 +134,6 @@
       </form>
     </div>
   </div>
-
 </template>
 
 <script >
@@ -160,16 +165,26 @@ export default {
         number: "",
         book_id: "",
         volume: 0,
-      
       },
+      previewData: null,
       showModalRepas: false,
-       isLoading: false,
+      isLoading: false,
     };
   },
   mounted() {
     this.addform.book_id = this.$route.params.id;
   },
- methods: {
+  methods: {
+    submitForm() {
+    if (this.addform.contain.trim() === '') {
+      console.log("Le champ est vide, le formulaire ne sera pas soumis.");
+      // Peut-être afficher un message d'erreur ici
+    } else {
+      console.log("Le champ n'est pas vide, soumission du formulaire...");
+      this.chapitre();
+      // Autre logique de soumission du formulaire si nécessaire
+    }
+  },
     async profile() {
       try {
         const response = await axios.get("/api/profile");
@@ -180,13 +195,18 @@ export default {
         console.log(error.data);
       }
     },
+    showPreview() {
+      // Affichez les données prévisualisées
+      this.isLoading = false;
+      this.previewData = { ...this.addform };
+    },
     async chapitre() {
       try {
         this.isLoading = true;
         const response = await axios.post("/api/chapters", this.addform);
         if (response.status == 201) {
-          this.addform= {};
-           this.isLoading = false;
+          this.addform = {};
+          this.isLoading = false;
           new Noty({
             type: "success",
             layout: "topRight",
